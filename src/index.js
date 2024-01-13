@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import 'assets/css/App.css';
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import AuthLayout from 'layouts/auth';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import AdminLayout from 'layouts/admin';
-import RtlLayout from 'layouts/rtl';
 import { ChakraProvider, IconButton, Box, Flex, Text } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
@@ -156,10 +154,7 @@ const App = () => {
               ) : (
 
                 <Switch>
-                  <Route path={`/auth`} component={AuthLayout} />
                   <Route path={`/admin`} component={AdminLayout} />
-                  <Route path={`/rtl`} component={RtlLayout} />
-                  <Redirect from='/' to='/admin' />
                 </Switch>
 
               )}
