@@ -686,7 +686,7 @@ const App = () => {
   const [showModifyForm] = useState(false);
   const [selectedActionData, setSelectedActionData] = useState(null);
   const [selectedAction, setSelectedAction] = useState(null);
-  const { setDaySelected, setShowEventModal, setSelectedEvent } = useContext(GlobalContext);
+  const { setDaySelected, setSelectedEvent } = useContext(GlobalContext);
   const [ModifyActionModalOpen, setModifyActionModalOpen] = useState(false);
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
