@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box,  Button, useColorModeValue } from '@chakra-ui/react';
-import { FcAdvertising, FcBusinessman } from "react-icons/fc";
+import { FcBusinessman, FcOvertime } from "react-icons/fc"; 
 
 const ParametersDocuments = ({ onEventAndCharacteristicsClick, onAddActionClick }) => {
   const brandColor = useColorModeValue("brand.500", "white");
@@ -10,7 +10,7 @@ const ParametersDocuments = ({ onEventAndCharacteristicsClick, onAddActionClick 
   return (
     <Box >
       <Button
-        leftIcon={<FcAdvertising size='32px' color={brandColor} />}
+        leftIcon={<FcBusinessman size='32px' color={brandColor} />} 
         bg={buttonBg}
         color={buttonTextColor}
         h='100px'
@@ -20,12 +20,12 @@ const ParametersDocuments = ({ onEventAndCharacteristicsClick, onAddActionClick 
         Ajouter un collaborateur
       </Button>
       <Button
-        leftIcon={<FcBusinessman size='32px' color={brandColor} />}
+        leftIcon={<FcOvertime size='32px' color={brandColor} />} 
         bg={buttonBg}
         color={buttonTextColor}
         h='100px'
-        m={4} 
-        onClick={onAddActionClick} // Ensure this is calling the correct function
+        m={4}
+        onClick={onAddActionClick}
       >
         Ajouter une disponibilité
       </Button>

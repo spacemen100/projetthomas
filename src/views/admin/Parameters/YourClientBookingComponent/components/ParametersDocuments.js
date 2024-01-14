@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box,  Button, useColorModeValue } from '@chakra-ui/react';
-import { FcAdvertising, FcBusinessman } from "react-icons/fc";
+import { FcAdvertising, FcBookmark } from "react-icons/fc";
 
 const ParametersDocuments = ({ onEventAndCharacteristicsClick, onAddActionClick }) => {
   const brandColor = useColorModeValue("brand.500", "white");
@@ -21,7 +21,7 @@ const ParametersDocuments = ({ onEventAndCharacteristicsClick, onAddActionClick 
         Les entreprises inscrites
       </Button>
       <Button
-        leftIcon={<FcBusinessman size='32px' color={brandColor} />}
+        leftIcon={<FcBookmark size='32px' color={brandColor} />}
         bg={buttonBg}
         color={buttonTextColor}
         h='100px'
