@@ -115,7 +115,7 @@ function CustomerContactForm() {
     <Box width="100%" pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <Box spacing={4}>
         <Heading as="h3" size="lg">
-          Détails du Contact Client
+          Vos coordonnées
         </Heading>
 
         {renderAlert()}
