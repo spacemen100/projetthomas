@@ -786,15 +786,7 @@ const App = () => {
             {day.format("DD")}
           </Text>
         </Flex>
-        <Flex
-          flexDir="column"
-          flex={1}
-          cursor="pointer"
-          onClick={() => {
-            setDaySelected(day);
-            setShowEventModal(true);
-          }}
-        >
+        <Flex flexDir="column" flex={1} >
           {dayEvents.map((event, idx) => (
             <Tooltip
               key={idx}
@@ -805,6 +797,7 @@ const App = () => {
               color={isTeamSelected(event) ? "white" : "transparent"}
               bg={isTeamSelected(event) ? event.color || 'gray.200' : 'transparent'}
             >
+              {/* Remove the onClick event handler from here */}
               <Badge
                 onClick={(e) => {
                   e.stopPropagation();
@@ -812,6 +805,7 @@ const App = () => {
                   setSelectedEvent(event.id);
                   setSelectedAction(event);
                 }}
+                cursor="pointer"
                 bg={isTeamSelected(event) ? event.color || 'gray.200' : 'transparent'}
                 p={1}
                 color={isTeamSelected(event) ? "white" : "gray.600"} // Set the color to white when the event is selected
