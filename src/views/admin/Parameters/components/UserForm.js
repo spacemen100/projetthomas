@@ -12,31 +12,23 @@ import {
   Select,
 
 } from '@chakra-ui/react';
-import supabase, { supabaseUrl } from './../../../../supabaseClient';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = 'https://pvpsmyizvorwwccuwbuq.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2cHNteWl6dm9yd3djY3V3YnVxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwMjgzMDg2MCwiZXhwIjoyMDE4NDA2ODYwfQ.9YDEN41__xBFJU91XY9e3r119A03yQ2oq5azmrx1aqY';
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const UserForm = () => {
-  const [nameOfTheTeam] = useState('');
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [lat, setLat] = useState(45.75799485263588);
   const [lng, setLng] = useState(4.825754111294844);
-  const [mission] = useState('');
-  const [typeDeVehicule] = useState('');
-  const [immatriculation] = useState('');
-  const [specialite] = useState('');
   const [vCard, setVCard] = useState(null);
   const [statutDansLaBoite, setStatutDansLaBoite] = useState('');
   const [resumeCV, setResumeCV] = useState('');
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
 
-  const [teamMembers] = useState([{
-    id: uuidv4(), // Generate unique ID for the first team member
-    familyname: '',
-    firstname: '',
-    mail: '',
-    phone: '',
-    isLeader: false, // Added isLeader property
-  }]);
+
   const generateRandomColor = () => {
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
     return `#${randomColor}`;
@@ -49,6 +41,11 @@ const UserForm = () => {
       setVCard(file);
     }
   };
+
+
+
+
+
 
   // Map events
   const LocationMarker = () => {
@@ -113,18 +110,15 @@ const UserForm = () => {
       .insert([
         {
           id: uuidv4(),
-          name_of_the_team: nameOfTheTeam,
+
           latitude: lat,
           longitude: lng,
           photo_profile_url: publicURL,
           last_active: new Date().toISOString(),
-          team_members: teamMembers,
+
           color: teamColor,
           creation_timestamp: timestamp,
-          mission: mission,
-          type_de_vehicule: typeDeVehicule,
-          immatriculation: immatriculation,
-          specialite: specialite,
+
           v_card: vCardPublicURL, // Use the V-Card public URL
           statut_dans_la_boite: statutDansLaBoite,
           resume_cv: resumeCV,
@@ -195,7 +189,7 @@ const UserForm = () => {
           </Select>
         </FormControl>
         <FormControl>
-          <FormLabel htmlFor="resume-cv">Résumé CV</FormLabel>
+          <FormLabel htmlFor="resume-cv">Résumé du CV</FormLabel>
           <Input
             id="resume-cv"
             type="text"

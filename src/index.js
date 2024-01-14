@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import 'assets/css/App.css';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AdminLayout from 'layouts/admin';
 import { ChakraProvider, IconButton, Box, Flex, Text } from '@chakra-ui/react';
 import theme from 'theme/theme';
@@ -154,7 +154,9 @@ const App = () => {
               ) : (
 
                 <Switch>
+
                   <Route path={`/admin`} component={AdminLayout} />
+                  <Redirect from='/' to='/admin' />
                 </Switch>
 
               )}
