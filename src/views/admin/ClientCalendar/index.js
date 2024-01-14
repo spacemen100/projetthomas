@@ -686,7 +686,6 @@ const App = () => {
   const [showModifyForm] = useState(false);
   const [selectedActionData, setSelectedActionData] = useState(null);
   const [selectedAction, setSelectedAction] = useState(null);
-  const { setDaySelected, setSelectedEvent } = useContext(GlobalContext);
   const [ModifyActionModalOpen, setModifyActionModalOpen] = useState(false);
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
@@ -800,9 +799,6 @@ const App = () => {
               {/* Remove the onClick event handler from here */}
               <Badge
                 onClick={(e) => {
-                  e.stopPropagation();
-                  setDaySelected(day);
-                  setSelectedEvent(event.id);
                   setSelectedAction(event);
                 }}
                 cursor="pointer"
