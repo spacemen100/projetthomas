@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, memo } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./index.css";
 import { getMonth } from "./util";
 import {
@@ -728,7 +728,7 @@ const App = () => {
   }, []);
 
 
-  const DayComponent = memo(({ day, rowIdx, teamMembers }) => {
+  const DayComponent = React.memo(({ day, rowIdx, teamMembers }) => {
     const [dayEvents, setDayEvents] = useState([]);
     const isTeamSelected = (event) => {
       const teamIndex = teamMembers.findIndex(member => member.id === event.team_id);
