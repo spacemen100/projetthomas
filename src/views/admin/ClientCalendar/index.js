@@ -804,7 +804,7 @@ const App = () => {
                 cursor="pointer"
                 bg={isTeamSelected(event) ? event.color || 'gray.200' : 'transparent'}
                 p={1}
-                color={isTeamSelected(event) ? "white" : "gray.600"} // Set the color to white when the event is selected
+                color={isTeamSelected(event) ? "white" : "white"} // Set the color to white when the event is selected
                 fontSize="sm"
                 borderRadius="md"
                 mb={1}
@@ -847,7 +847,6 @@ const App = () => {
                   </Box>
                   <div style={modifyActionButtonStyle}>
                     <ModifyAction initialActionData={selectedActionData} />
-
                   </div>
                   <ModifyActionBis />
                 </Flex>
@@ -861,6 +860,10 @@ const App = () => {
                           <Checkbox
                             onChange={() => handleCheckboxChange(index)}
                             isChecked={selectedTeams[index]}
+                            colorScheme={member.color || "blue"}
+                            borderColor={member.color || "blue"}// Use the nearest color for border
+                            color={member.color || "blue"}
+                            bg={member.color || "blue"}
                           />
                           <Badge marginLeft="2" color={member.color || "blue"}>{`${member.nom} ${member.prenom}`}</Badge>
                         </Flex>
