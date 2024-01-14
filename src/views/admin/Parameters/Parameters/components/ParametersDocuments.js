@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Button, useColorModeValue } from '@chakra-ui/react';
+import { Box,  Button, useColorModeValue } from '@chakra-ui/react';
 import { FcAdvertising, FcBusinessman } from "react-icons/fc";
 
 const ParametersDocuments = ({ onEventAndCharacteristicsClick, onAddActionClick }) => {
@@ -8,8 +8,7 @@ const ParametersDocuments = ({ onEventAndCharacteristicsClick, onAddActionClick 
   const buttonTextColor = useColorModeValue("secondaryGray.900", "white");
 
   return (
-    <Box border='1px' borderColor='gray.200' p={5} m={5}>
-      <Text fontSize='xl' m={4}>Evènements</Text>
+    <Box >
       <Button
         leftIcon={<FcAdvertising size='32px' color={brandColor} />}
         bg={buttonBg}
