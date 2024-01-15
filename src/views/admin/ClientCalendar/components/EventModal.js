@@ -2,29 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import GlobalContext from '../context/GlobalContext';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  CloseButton,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter
+  Box, Button, FormControl, FormLabel, Input, Select, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton,
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter
 } from '@chakra-ui/react';
 import supabase from './../../../../supabaseClient';
 
 const EventModal = ({ isOpen, onClose, selectedActionId }) => {
   const [teams, setTeams] = useState([]);
+  const [selectedTeamDetails, setSelectedTeamDetails] = useState(null);
   const { selectedEvent } = useContext(GlobalContext);
   const [action, setAction] = useState({
     teamId: '',
@@ -34,45 +19,6 @@ const EventModal = ({ isOpen, onClose, selectedActionId }) => {
     comment: ''
   });
   const [alert, setAlert] = useState({ status: '', message: '', isVisible: false });
-  const fetchActionDetails = async (actionId) => {
-    try {
-      const { data, error } = await supabase
-        .from('vianney_actions')
-        .select('*')
-        .eq('id', actionId)
-        .single();
-  
-      if (error) {
-        console.error('Error fetching action details:', error);
-      } else {
-        // Update the action details in the component state
-        setAction({
-          teamId: data.team_to_which_its_attached,
-          actionName: data.action_name,
-          startingDateTime: data.starting_date,
-          endingDateTime: data.ending_date,
-          comment: data.action_comment
-        });
-      }
-    } catch (error) {
-      console.error('An error occurred while fetching action details:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (selectedEvent) {
-      setAction({
-        teamId: selectedEvent.team_to_which_its_attached,
-        actionName: selectedEvent.action_name,
-        startingDateTime: selectedEvent.starting_date,
-        endingDateTime: selectedEvent.ending_date,
-        comment: selectedEvent.action_comment
-      });
-    } else if (selectedActionId) {
-      // Fetch action details using selectedActionId
-      fetchActionDetails(selectedActionId);
-    }
-  }, [selectedEvent, selectedActionId]);
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -87,35 +33,73 @@ const EventModal = ({ isOpen, onClose, selectedActionId }) => {
         console.error('An error occurred while fetching teams:', error);
       }
     };
-  
+
     fetchTeams();
   }, []);
-  
+
+  const fetchTeamDetails = async (teamId) => {
+    try {
+      const { data, error } = await supabase
+        .from('vianney_teams')
+        .select('*')
+        .eq('id', teamId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching team details:', error);
+      } else {
+        setSelectedTeamDetails(data);
+        console.log("Fetched team details: ", data); // Debugging line
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching team details:', error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!selectedTeamDetails) {
+      console.error('Team details are not available');
+      setAlert({
+        status: 'error',
+        message: 'Les détails de l\'équipe ne sont pas disponibles. Veuillez réessayer.',
+        isVisible: true
+      });
+      return;
+    }
 
+    // Associate team data with the action
     const actionToSave = {
-      id: uuidv4(),
+      id: selectedEvent ? selectedEvent.id : uuidv4(),
       team_to_which_its_attached: action.teamId,
       action_name: action.actionName,
       starting_date: action.startingDateTime,
       ending_date: action.endingDateTime,
-      action_comment: action.comment
+      action_comment: action.comment,
+      last_updated: new Date().toISOString(),
+      color: selectedTeamDetails?.color,
+      latitude: selectedTeamDetails?.latitude,
+      longitude: selectedTeamDetails?.longitude,
+      photo_profile_url: selectedTeamDetails?.photo_profile_url,
+      last_active: selectedTeamDetails?.last_active,
+      statut_dans_la_boite: selectedTeamDetails?.statut_dans_la_boite,
+      resume_cv: selectedTeamDetails?.resume_cv,
+      nom: selectedTeamDetails?.nom,
+      prenom: selectedTeamDetails?.prenom,
+      user_id: selectedTeamDetails?.user_id,
+      v_card: selectedTeamDetails?.v_card,
     };
 
     let result;
     if (selectedEvent) {
-      // Update existing event
       result = await supabase
         .from('vianney_actions')
         .update(actionToSave)
         .match({ id: selectedEvent.id });
     } else {
-      // Create new event
       result = await supabase
         .from('vianney_actions')
-        .insert([{ ...actionToSave, id: uuidv4() }]);
+        .insert([actionToSave]);
     }
 
     if (result.error) {
@@ -128,13 +112,12 @@ const EventModal = ({ isOpen, onClose, selectedActionId }) => {
     } else {
       setAlert({
         status: 'success',
-        message: 'L\'action a été sauvegardée avec succès.',
+        message: 'L action a été sauvegardée avec succès.',
         isVisible: true
       });
-      // Reset form or close modal
+      onClose();
     }
   };
-
 
   const closeAlert = () => {
     setAlert({ ...alert, isVisible: false });
@@ -160,7 +143,14 @@ const EventModal = ({ isOpen, onClose, selectedActionId }) => {
           <form onSubmit={handleSubmit}>
             <FormControl isRequired>
               <FormLabel>Équipe</FormLabel>
-              <Select placeholder="Sélectionner une équipe" onChange={(e) => setAction({ ...action, teamId: e.target.value })}>
+              <Select
+                placeholder="Sélectionner une équipe"
+                onChange={(e) => {
+                  setAction({ ...action, teamId: e.target.value });
+                  // Fetch team details when a team is selected
+                  fetchTeamDetails(e.target.value);
+                }}
+              >
                 {teams.map(team => (
                   <option key={team.id} value={team.id}>{team.nom}</option>
                 ))}
