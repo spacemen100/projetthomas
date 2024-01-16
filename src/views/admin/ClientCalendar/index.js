@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./index.css";
-import { FcBearish } from "react-icons/fc";
 import { getMonth } from "./util";
 import {
   ChakraProvider, VStack, Tooltip, Grid, Button, Icon, Text, Modal, ModalOverlay, ModalContent, ModalHeader,
