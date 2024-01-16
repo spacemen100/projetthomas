@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./index.css";
+import { FcBearish } from "react-icons/fc";
 import { getMonth } from "./util";
 import {
   ChakraProvider, VStack, Tooltip, Grid, Button, Icon, Text, Modal, ModalOverlay, ModalContent, ModalHeader,
@@ -757,7 +758,7 @@ const App = () => {
           console.error('Error fetching actions:', error);
         }
       };
-      
+
 
       fetchActions();
     }, [day]);
@@ -797,24 +798,43 @@ const App = () => {
               color={isTeamSelected(event) ? "white" : "transparent"}
               bg={isTeamSelected(event) ? event.color || 'gray.200' : 'transparent'}
             >
-              {/* Remove the onClick event handler from here */}
-              <Badge
-                onClick={(e) => {
-                  setSelectedAction(event);
-                }}
-                cursor="pointer"
-                bg={isTeamSelected(event) ? event.color || 'gray.200' : 'transparent'}
-                p={1}
-                color={isTeamSelected(event) ? "white" : "white"} // Set the color to white when the event is selected
-                fontSize="sm"
-                borderRadius="md"
-                mb={1}
-                width="100%"
-                textAlign="center"
-                isTruncated
+              <Box
+                position="relative"
+                display="inline-block"
               >
-                {event.action_name}
-              </Badge>
+                <Badge
+                  onClick={(e) => {
+                    setSelectedAction(event);
+                  }}
+                  cursor="pointer"
+                  bg={isTeamSelected(event) ? event.color || 'gray.200' : 'transparent'}
+                  p={1}
+                  color={isTeamSelected(event) ? 'white' : 'white'}
+                  fontSize="sm"
+                  borderRadius="md"
+                  mb={1}
+                  width="100%"
+                  textAlign="center"
+                  isTruncated
+                >
+                  {event.action_name}
+                  {event.discounted && event.percentage_of_discount !== null && (
+                    <Box
+                      
+                      position="absolute"
+                      top="-10px"
+                      right="-10px"
+                      bg="red.500" // Change to the desired background color for the circle
+                      borderRadius="full"
+                      p={1}
+                      zIndex="1" // Set a higher z-index for the circle
+                    >
+                    -{event.percentage_of_discount}%
+                    </Box>
+                  )}
+                </Badge>
+                
+              </Box>
             </Tooltip>
           ))}
         </Flex>
