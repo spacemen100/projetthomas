@@ -33,6 +33,7 @@ const EquipiersTable = ({ showAll }) => {
   const [selectedEquipier, setSelectedEquipier] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const mapRef = useRef(null);
+  const [showAllActions, setShowAllActions] = useState(false);
 
   const onRowClick = (equipier) => {
     setSelectedEquipier(equipier);
@@ -217,45 +218,72 @@ const EquipiersTable = ({ showAll }) => {
                     </a>
                   </Center>
                 )}
-                {selectedEquipier.actions ? (
+                {selectedEquipier.actions && (
                   <>
-                    {selectedEquipier.actions.slice(0, 5).map((action, index) => (
-                      <Alert
-                        key={index}
-                        status="success"
-                        variant="subtle"
-                        flexDirection="column"
-                        alignItems="start"
-                        justifyContent="start"
-                        bg="green.50"
-                        borderColor="green.200"
-                        borderWidth="1px"
-                        borderLeftWidth="5px"
-                        borderRadius="md"
-                        p={4}
-                        mt={4}
+                    {showAllActions ? ( // Show all actions if showAllActions is true
+                      selectedEquipier.actions.map((action, index) => (
+                        <Alert
+                          key={index}
+                          status="success"
+                          variant="subtle"
+                          flexDirection="column"
+                          alignItems="start"
+                          justifyContent="start"
+                          bg="green.50"
+                          borderColor="green.200"
+                          borderWidth="1px"
+                          borderLeftWidth="5px"
+                          borderRadius="md"
+                          p={4}
+                          mt={4}
+                        >
+                          <AlertIcon />
+                          <AlertTitle>Disponible pour {action.action_name}</AlertTitle>
+                          <Text>Du {format(new Date(action.starting_date), "dd MMMM yyyy à HH:mm", { locale: fr })}</Text>
+                          <Text>Au {format(new Date(action.ending_date), "dd MMMM yyyy à HH:mm", { locale: fr })}</Text>
+                        </Alert>
+                      ))
+                    ) : (
+                      selectedEquipier.actions.slice(0, 2).map((action, index) => ( // Show only the first 2 actions
+                        <Alert
+                          key={index}
+                          status="success"
+                          variant="subtle"
+                          flexDirection="column"
+                          alignItems="start"
+                          justifyContent="start"
+                          bg="green.50"
+                          borderColor="green.200"
+                          borderWidth="1px"
+                          borderLeftWidth="5px"
+                          borderRadius="md"
+                          p={4}
+                          mt={4}
+                        >
+                          <AlertIcon />
+                          <AlertTitle>Disponible pour {action.action_name}</AlertTitle>
+                          <Text>Du {format(new Date(action.starting_date), "dd MMMM yyyy à HH:mm", { locale: fr })}</Text>
+                          <Text>Au {format(new Date(action.ending_date), "dd MMMM yyyy à HH:mm", { locale: fr })}</Text>
+                        </Alert>
+                      ))
+                    )}
+
+                    {selectedEquipier.actions.length > 2 && !showAllActions && (
+                      <Button
+                        colorScheme="green"
+                        size="sm"
+                        mt={2}
+                        onClick={() => {
+                          setShowAllActions(true); // Show all actions when the button is clicked
+                        }}
                       >
-                        <AlertIcon />
-                        <AlertTitle>Disponible pour {action.action_name}</AlertTitle>
-                        <Text>Du {format(new Date(action.starting_date), "dd MMMM yyyy à HH:mm", { locale: fr })}</Text>
-                        <Text> Au {format(new Date(action.ending_date), "dd MMMM yyyy à HH:mm", { locale: fr })}</Text>
-                      </Alert>
-                    ))}
-
-                    <Button
-                      colorScheme="green"
-                      size="sm"
-                      mt={2}
-                      onClick={() => {
-                        // Handle the click event here, e.g., navigate to other disponibilités
-                      }}
-                    >
-                      Voir toutes les disponibilités
-                    </Button>
-
+                        Voir toutes les disponibilités
+                      </Button>
+                    )}
                   </>
+                )}
                 ) : (
-                  <Text>Aucune disponibilité</Text>
+                <Text>Aucune autre disponibilité</Text>
                 )}
               </Stack>
             )}
