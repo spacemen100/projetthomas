@@ -187,7 +187,7 @@ const EventModal = ({ isOpen, onClose, selectedActionId }) => {
               <FormLabel>Pourcentage de rabais</FormLabel>
               <Input
                 type="number"
-                placeholder="Percentage of Discount"
+                placeholder="Pourcentage de remise"
                 value={action.percentage_of_discount || ''}
                 onChange={(e) => setAction({ ...action, percentage_of_discount: e.target.value })}
               />
