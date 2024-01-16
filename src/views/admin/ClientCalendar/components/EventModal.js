@@ -3,7 +3,7 @@ import GlobalContext from '../context/GlobalContext';
 import { v4 as uuidv4 } from 'uuid';
 import {
   Box, Button, FormControl, FormLabel, Input, Select, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton,
-  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Checkbox,
 } from '@chakra-ui/react';
 import supabase from './../../../../supabaseClient';
 
@@ -76,6 +76,8 @@ const EventModal = ({ isOpen, onClose, selectedActionId }) => {
       starting_date: action.startingDateTime,
       ending_date: action.endingDateTime,
       action_comment: action.comment,
+      discounted: action.discounted || false, // Include discounted field
+      percentage_of_discount: action.percentage_of_discount || 0, // Include percentage_of_discount field
       last_updated: new Date().toISOString(),
       color: selectedTeamDetails?.color,
       latitude: selectedTeamDetails?.latitude,
@@ -171,6 +173,24 @@ const EventModal = ({ isOpen, onClose, selectedActionId }) => {
             <FormControl mt={4}>
               <FormLabel>Commentaire</FormLabel>
               <Input placeholder="Commentaire" onChange={(e) => setAction({ ...action, comment: e.target.value })} />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Discounted</FormLabel>
+              <Checkbox
+                isChecked={action.discounted || false}
+                onChange={(e) => setAction({ ...action, discounted: e.target.checked })}
+              >
+                Is Discounted
+              </Checkbox>
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Percentage of Discount</FormLabel>
+              <Input
+                type="number"
+                placeholder="Percentage of Discount"
+                value={action.percentage_of_discount || ''}
+                onChange={(e) => setAction({ ...action, percentage_of_discount: e.target.value })}
+              />
             </FormControl>
           </form>
         </ModalBody>
