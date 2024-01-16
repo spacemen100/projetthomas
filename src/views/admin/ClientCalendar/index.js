@@ -73,7 +73,7 @@ const ModifyAction = ({ initialActionData }) => {
     console.log("Initial Action Data:", initialActionData);
     if (initialActionData) {
       setAction({
-        actionId: initialActionData.action_id,
+        actionId: initialActionData.id,
         actionName: initialActionData.action_name,
         startingDate: initialActionData.starting_date,
         endingDate: initialActionData.ending_date,
@@ -95,9 +95,9 @@ const ModifyAction = ({ initialActionData }) => {
         }
 
         const { data, error } = await supabase
-          .from('team_action_view_rendering')
+          .from('vianney_actions')
           .select('nom, prenom')
-          .eq('action_id', action.actionId);
+          .eq('id', action.actionId);
 
         if (error) {
           console.error('Error fetching team data:', error);
@@ -432,9 +432,9 @@ const ModifyActionBis = () => {
     try {
 
       const { data: actionData, error: actionError } = await supabase
-        .from('team_action_view_rendering')
+        .from('vianney_actions')
         .select('*')
-        .eq('action_id', selectedActionId)
+        .eq('id', selectedActionId)
         .single();
 
       if (actionError) {
@@ -730,7 +730,7 @@ const App = () => {
   const DayComponent = React.memo(({ day, rowIdx, teamMembers }) => {
     const [dayEvents, setDayEvents] = useState([]);
     const isTeamSelected = (event) => {
-      const teamIndex = teamMembers.findIndex(member => member.id === event.team_id);
+      const teamIndex = teamMembers.findIndex(member => member.id === event.team_to_which_its_attached);
       return teamIndex !== -1 && selectedTeams[teamIndex];
     };
 
@@ -738,7 +738,7 @@ const App = () => {
       const fetchActions = async () => {
         try {
           const { data, error } = await supabase
-            .from('team_action_view_rendering')
+            .from('vianney_actions')
             .select('*');
           if (error) {
             console.error('Error fetching actions:', error);
@@ -757,6 +757,7 @@ const App = () => {
           console.error('Error fetching actions:', error);
         }
       };
+      
 
       fetchActions();
     }, [day]);
