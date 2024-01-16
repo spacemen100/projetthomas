@@ -218,7 +218,7 @@ const EquipiersTable = ({ showAll }) => {
                     </a>
                   </Center>
                 )}
-                {selectedEquipier.actions && (
+                {selectedEquipier.actions && selectedEquipier.actions.length > 0 && (
                   <>
                     {showAllActions ? ( // Show all actions if showAllActions is true
                       selectedEquipier.actions.map((action, index) => (
@@ -282,8 +282,8 @@ const EquipiersTable = ({ showAll }) => {
                     )}
                   </>
                 )}
-                ) : (
-                <Text>Aucune autre disponibilité</Text>
+                {selectedEquipier.actions && selectedEquipier.actions.length === 0 && (
+                  <Text>Aucune disponibilité</Text>
                 )}
               </Stack>
             )}
