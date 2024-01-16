@@ -474,7 +474,7 @@ const ModifyActionBis = () => {
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modifier l'actionbis</ModalHeader>
+          <ModalHeader>Modifier la mission</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Box>
