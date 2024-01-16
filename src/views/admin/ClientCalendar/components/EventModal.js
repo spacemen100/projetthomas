@@ -180,11 +180,11 @@ const EventModal = ({ isOpen, onClose, selectedActionId }) => {
                 isChecked={action.discounted || false}
                 onChange={(e) => setAction({ ...action, discounted: e.target.checked })}
               >
-                Is Discounted
+                En solde 🚀
               </Checkbox>
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>Percentage of Discount</FormLabel>
+              <FormLabel>Pourcentage de rabais</FormLabel>
               <Input
                 type="number"
                 placeholder="Percentage of Discount"
