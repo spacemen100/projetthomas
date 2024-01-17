@@ -144,6 +144,9 @@ const EquipiersTable = ({ showAll }) => {
           <Badge colorScheme={'blue'}>{equipier.statut_dans_la_boite || 'N/A'}</Badge>
         </Text>
       </Box>
+      <Box alignItems="center" justifyContent="center" p="1" textAlign="center">
+        <CallViaWhatsAppButton phoneNumber={equipier.phone_number} />
+      </Box>
     </Box>
   );
 
@@ -296,3 +299,16 @@ const EquipiersTable = ({ showAll }) => {
 };
 
 export default EquipiersTable;
+
+const CallViaWhatsAppButton = ({ phoneNumber }) => {
+  const handleWhatsAppCall = () => {
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  return (
+    <Button onClick={handleWhatsAppCall} colorScheme="green">
+      Appeler via WhatsApp
+    </Button>
+  );
+};
