@@ -1,11 +1,12 @@
 import React from "react";
 import { Icon } from "@chakra-ui/react";
 import {
-  FcPieChart, // Suggested replacement for FcSurvey
-  FcLink,     // Suggested replacement for FcMindMap
+  FcPieChart, 
+  FcLink,     
   FcBusinessman,
   FcCalendar,
   FcSettings,
+  FcGrid,
 } from "react-icons/fc";
 import VideoChatRoom from "views/admin/videoChatRoom";
 import Company from "views/admin/default";
@@ -13,6 +14,7 @@ import Partner from "views/admin/partner";
 import Parameters from "views/admin/Parameters";
 import ConsultantBooking from "views/admin/ConsultantBooking";
 import ClientCalendar from 'views/admin/ClientCalendar';
+import YourExcelPlanningComponent from 'views/admin/YourExcelPlanningComponent';
 
 const routes = [
   {
@@ -60,6 +62,15 @@ const routes = [
     icon: <Icon as={FcBusinessman} width='20px' height='20px' color='inherit' />,
     component: VideoChatRoom,
   },
+  {
+    name: "Planning format excel",
+    layout: "/admin",
+    path: "/planning-excel", // Choose an appropriate path
+    icon: <Icon as={FcGrid} width='20px' height='20px' color='inherit' />, // Use FcGrid icon
+    component: YourExcelPlanningComponent, // Reference your new component
+    // Add any additional properties if needed
+  },
+  
 ];
 
 export default routes;
