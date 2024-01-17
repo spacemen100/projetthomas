@@ -145,7 +145,7 @@ const EquipiersTable = ({ showAll }) => {
         </Text>
       </Box>
       <Box alignItems="center" justifyContent="center" p="1" textAlign="center">
-        <CallViaWhatsAppButton phoneNumber={equipier.phone_number} />
+        <CallViaWhatsAppButton phoneNumber={equipier.phonenumber} />
       </Box>
     </Box>
   );
