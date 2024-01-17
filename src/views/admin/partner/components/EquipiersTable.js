@@ -302,13 +302,20 @@ export default EquipiersTable;
 
 const CallViaWhatsAppButton = ({ phoneNumber }) => {
   const handleWhatsAppCall = () => {
-    const whatsappUrl = `https://wa.me/${phoneNumber}`;
-    window.open(whatsappUrl, "_blank");
+    if (phoneNumber) {
+      const whatsappUrl = `https://wa.me/${phoneNumber}`;
+      window.open(whatsappUrl, "_blank");
+    }
   };
 
+  // Conditionally render the button only if phoneNumber is not null
   return (
-    <Button onClick={handleWhatsAppCall} colorScheme="green">
-      Appeler via WhatsApp
-    </Button>
+    <>
+      {phoneNumber && (
+        <Button onClick={handleWhatsAppCall} colorScheme="green">
+          Appeler via WhatsApp
+        </Button>
+      )}
+    </>
   );
 };
