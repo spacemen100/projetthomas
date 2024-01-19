@@ -1,8 +1,23 @@
 import { useState } from "react";
 import * as XLSX from 'xlsx';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  Alert,
+  AlertIcon,
+} from "@chakra-ui/react";
 
 function App() {
-
   // onchange states
   const [excelFile, setExcelFile] = useState(null);
   const [typeError, setTypeError] = useState(null);
@@ -32,7 +47,7 @@ function App() {
       console.log('Please select your file');
     }
   }
-  
+
   // submit event
   const handleFileSubmit=(e)=>{
     e.preventDefault();
@@ -46,47 +61,49 @@ function App() {
   }
 
   return (
-    <div className="wrapper">
+    <Box className="wrapper" p={4}>
       <form className="form-group custom-form" onSubmit={handleFileSubmit}>
-        <input type="file" className="form-control" required onChange={handleFile} />
-        <button type="submit" className="btn btn-success btn-md">Télécharger</button>
-        {typeError&&(
-          <div className="alert alert-danger" role="alert">{typeError}</div>
+        <FormControl>
+          <FormLabel>Choisissez un fichier Excel</FormLabel>
+          <Input type="file" required onChange={handleFile} />
+        </FormControl>
+        <Button type="submit" colorScheme="teal" mt={2}>
+          Télécharger
+        </Button>
+        {typeError && (
+          <Alert status="error" mt={2}>
+            <AlertIcon />
+            {typeError}
+          </Alert>
         )}
       </form>
 
       {/* view data */}
-      <div className="viewer">
-        {excelData?(
-          <div className="table-responsive">
-            <table className="table">
-
-              <thead>
-                <tr>
-                  {Object.keys(excelData[0]).map((key)=>(
-                    <th key={key}>{key}</th>
-                  ))}
-                </tr>
-              </thead>
-
-              <tbody>
-                {excelData.map((individualExcelData, index)=>(
-                  <tr key={index}>
-                    {Object.keys(individualExcelData).map((key)=>(
-                      <td key={key}>{individualExcelData[key]}</td>
-                    ))}
-                  </tr>
+      <Box className="viewer" mt={4}>
+        {excelData ? (
+          <Table variant="striped" colorScheme="teal">
+            <Thead>
+              <Tr>
+                {Object.keys(excelData[0]).map((key) => (
+                  <Th key={key}>{key}</Th>
                 ))}
-              </tbody>
-
-            </table>
-          </div>
-        ):(
-          <div>Aucun fichier téléchargé pour l'instant!</div>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {excelData.map((individualExcelData, index) => (
+                <Tr key={index}>
+                  {Object.keys(individualExcelData).map((key) => (
+                    <Td key={key}>{individualExcelData[key]}</Td>
+                  ))}
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        ) : (
+          <Text>Aucun fichier téléchargé pour l'instant !</Text>
         )}
-      </div>
-
-    </div>
+      </Box>
+    </Box>
   );
 }
 
