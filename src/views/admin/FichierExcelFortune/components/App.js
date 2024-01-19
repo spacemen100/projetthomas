@@ -40,9 +40,13 @@ const App = () => {
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-    
+  
     console.log(jsonData); // Debug: Log the parsed data
-    setWorkbookData([{ name: sheetName, data: jsonData }]);
+  
+    // Example transformation (modify this according to the required format)
+    const transformedData = jsonData.map(row => ({ values: row }));
+  
+    setWorkbookData([{ name: sheetName, data: transformedData }]);
   };
   
   
