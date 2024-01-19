@@ -3,6 +3,7 @@ import { Workbook } from "@fortune-sheet/react";
 import "@fortune-sheet/react/dist/index.css";
 import { createClient } from '@supabase/supabase-js';
 import * as XLSX from 'xlsx';
+import './App.css';
 
 // Initialize Supabase client
 const supabaseUrl ='https://pvpsmyizvorwwccuwbuq.supabase.co';
