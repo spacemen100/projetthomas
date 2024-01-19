@@ -15,7 +15,7 @@ import Parameters from "views/admin/Parameters";
 import ConsultantBooking from "views/admin/ConsultantBooking";
 import ClientCalendar from 'views/admin/ClientCalendar';
 import YourExcelPlanningComponent from 'views/admin/YourExcelPlanningComponent';
-import UploadAndViewExcelFiles from 'views/admin/UploadAndViewExcelFiles'; 
+import TelechargerUnFichierExcel from 'views/admin/TelechargerUnFichierExcel'; 
 
 const routes = [
   {
@@ -72,11 +72,11 @@ const routes = [
     // Add any additional properties if needed
   },
   {
-    name: "Upload and View Excel Files",
+    name: "Telecharger un fichier excel",
     layout: "/admin",
     path: "/upload-and-view-excel", // Choose an appropriate path
     icon: <Icon as={FcGrid} width='20px' height='20px' color='inherit' />,
-    component: UploadAndViewExcelFiles, // Reference your new component
+    component: TelechargerUnFichierExcel, // Reference your new component
     // Add any additional properties if needed
   },  
 ];
