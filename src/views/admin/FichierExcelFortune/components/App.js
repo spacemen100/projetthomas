@@ -15,23 +15,22 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 const users = ["User1", "User2", "User3"]; // and so on...
 const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-// Function to generate cell data for the sheet "Cell"
 const generateCellDataForCellSheet = () => {
   const celldata = [];
 
   // Create header row with week days
   weekDays.forEach((day, index) => {
-    celldata.push({ "r": 0, "c": index + 1, "v": { "v": day } });
+    celldata.push({ "r": 0, "c": index + 1, "v": day });
   });
 
   // Add user rows
   users.forEach((user, rowIndex) => {
     // User name in the first column
-    celldata.push({ "r": rowIndex + 1, "c": 0, "v": { "v": user } });
+    celldata.push({ "r": rowIndex + 1, "c": 0, "v": user });
 
     // Fill the rest of the row with empty cells
     for (let colIndex = 1; colIndex <= weekDays.length; colIndex++) {
-      celldata.push({ "r": rowIndex + 1, "c": colIndex, "v": { "v": "" } });
+      celldata.push({ "r": rowIndex + 1, "c": colIndex, "v": "" });
     }
   });
 
