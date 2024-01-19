@@ -16,28 +16,31 @@ const App = () => {
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+  
     // Upload file to Supabase
     const { data, error } = await supabase.storage.from('excelbucket').upload(`path/to/save/${file.name}`, file);
     if (error) {
       console.error('Error uploading file:', error);
       return;
     }
-
+  
     // Download file from Supabase
     const { data: downloadData, error: downloadError } = await supabase.storage.from('excelbucket').download(`path/to/save/${file.name}`);
     if (downloadError) {
       console.error('Error downloading file:', downloadError);
       return;
     }
-
+  
     // Parse and set workbook data
     const workbook = XLSX.read(await downloadData.arrayBuffer(), { type: 'array' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    
+    console.log(jsonData); // Debug: Log the parsed data
     setWorkbookData([{ name: sheetName, data: jsonData }]);
   };
+  
 
   return (
     <>
