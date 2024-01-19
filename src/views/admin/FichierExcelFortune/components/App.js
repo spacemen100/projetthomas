@@ -57,8 +57,6 @@ const initialData = [
 ];
 
 const App = () => {
-  const [workbookData, setWorkbookData] = useState([{ name: "Sheet1" }]);
-
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -94,13 +92,67 @@ const App = () => {
   
     setWorkbookData([{ name: sheetName, data: transformedData }]);
   };
+  // Define the days of the week
+  const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-  
-  
+  // Define the initial users (you can modify this based on your actual data)
+  const users = ["User1", "User2", "User3"]; // Add more users as needed
+
+  // Generate cell data for the agenda
+  const generateAgendaData = () => {
+    let celldata = [];
+
+    // Adding header with week days
+    weekDays.forEach((day, columnIndex) => {
+      celldata.push({
+        "r": 0, // row 0 for headers
+        "c": columnIndex, // respective column
+        "v": { "v": day } // day of the week
+      });
+    });
+
+    // Adding rows for each user
+    users.forEach((user, rowIndex) => {
+      celldata.push({
+        "r": rowIndex + 1, // starting from row 1 for users
+        "c": 0, // column 0 for user names
+        "v": { "v": user } // user name
+      });
+
+      // Filling the rest of the row for each day of the week
+      for (let col = 1; col < weekDays.length + 1; col++) {
+        celldata.push({
+          "r": rowIndex + 1,
+          "c": col,
+          "v": { "v": "" } // empty cells for agenda entries
+        });
+      }
+    });
+
+    return celldata;
+  };
+
+  // Initial data for the workbook
+  const initialData = [
+    {
+      "name": "Week Agenda",
+      // ... other properties
+      "row": users.length + 1, // number of users plus one header row
+      "column": weekDays.length, // one column for each day of the week
+      "celldata": generateAgendaData(),
+      // ... other configurations
+    },
+    // ... additional sheets if needed
+  ];
+
+  const [workbookData, setWorkbookData] = useState(initialData);
+
+  // ... rest of your component including file upload handler
+
   return (
     <>
       <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
-      <Workbook data={initialData} />
+      <Workbook data={workbookData} />
     </>
   );
 };
