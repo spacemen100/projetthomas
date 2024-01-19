@@ -1,6 +1,4 @@
-// App.js
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Workbook } from "@fortune-sheet/react";
 import "@fortune-sheet/react/dist/index.css";
 
@@ -10,4 +8,4 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+export default App;
