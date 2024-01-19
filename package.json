@@ -57,6 +57,7 @@
     "stylis-plugin-rtl": "2.0.2",
     "uuid": "^9.0.1",
     "web-vitals": "^3.4.0",
+    "xlsx": "^0.18.5",
     "zego-express-engine-reactnative": "^3.2.0"
   },
   "scripts": {
