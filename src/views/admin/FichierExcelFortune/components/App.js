@@ -9,6 +9,52 @@ const supabaseUrl ='https://pvpsmyizvorwwccuwbuq.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2cHNteWl6dm9yd3djY3V3YnVxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwMjgzMDg2MCwiZXhwIjoyMDE4NDA2ODYwfQ.9YDEN41__xBFJU91XY9e3r119A03yQ2oq5azmrx1aqY';
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+// Example user data (you can replace this with actual user data)
+const users = ["User1", "User2", "User3"]; // and so on...
+
+// Function to generate cell data for the sheet
+const generateCellData = () => {
+  const celldata = [];
+
+  // Create header row with week days
+  weekDays.forEach((day, index) => {
+    celldata.push({ "r": 0, "c": index + 1, "v": { "v": day } });
+  });
+
+  // Add user rows
+  users.forEach((user, rowIndex) => {
+    // User name in the first column
+    celldata.push({ "r": rowIndex + 1, "c": 0, "v": { "v": user } });
+
+    // Fill the rest of the row with empty cells (or specific data if needed)
+    for (let colIndex = 1; colIndex <= weekDays.length; colIndex++) {
+      celldata.push({ "r": rowIndex + 1, "c": colIndex, "v": { "v": "" } });
+    }
+  });
+
+  return celldata;
+};
+
+// Initialize the worksheet data
+const initialData = [
+  {
+    "name": "Week Agenda",
+    "color": "",
+    "id": 0,
+    "status": 1,
+    "order": 0,
+    "hide": 0,
+    "row": users.length + 1, // Number of users plus one header row
+    "column": weekDays.length + 1, // 7 days plus one column for user names
+    "defaultRowHeight": 19,
+    "defaultColWidth": 73,
+    "celldata": generateCellData(),
+    // Add more config as needed
+  },
+  // Add more sheets as needed
+];
 
 const App = () => {
   const [workbookData, setWorkbookData] = useState([{ name: "Sheet1" }]);
@@ -48,13 +94,13 @@ const App = () => {
   
     setWorkbookData([{ name: sheetName, data: transformedData }]);
   };
-  
-  
 
+  
+  
   return (
     <>
       <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
-      <Workbook data={workbookData} />
+      <Workbook data={initialData} />
     </>
   );
 };
