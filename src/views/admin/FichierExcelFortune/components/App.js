@@ -6,16 +6,16 @@ import * as XLSX from 'xlsx';
 
 // Initialize Supabase client
 const supabaseUrl ='https://pvpsmyizvorwwccuwbuq.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2cHNteWl6dm9yd3djY3V3YnVxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwMjgzMDg2MCwiZXhwIjoyMDE4NDA2ODYwfQ.9YDEN41__xBFJU91XY9e3r119A03yQ2oq5azmrx1aqY';
+const supabaseAnonKey = '...'; // Use your actual Supabase Anon Key
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
-const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 // Example user data (you can replace this with actual user data)
 const users = ["User1", "User2", "User3"]; // and so on...
+const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-// Function to generate cell data for the sheet
-const generateCellData = () => {
+// Function to generate cell data for the sheet "Cell"
+const generateCellDataForCellSheet = () => {
   const celldata = [];
 
   // Create header row with week days
@@ -28,7 +28,7 @@ const generateCellData = () => {
     // User name in the first column
     celldata.push({ "r": rowIndex + 1, "c": 0, "v": { "v": user } });
 
-    // Fill the rest of the row with empty cells (or specific data if needed)
+    // Fill the rest of the row with empty cells
     for (let colIndex = 1; colIndex <= weekDays.length; colIndex++) {
       celldata.push({ "r": rowIndex + 1, "c": colIndex, "v": { "v": "" } });
     }
@@ -36,25 +36,6 @@ const generateCellData = () => {
 
   return celldata;
 };
-
-// Initialize the worksheet data
-const initialData = [
-  {
-    "name": "Week Agenda",
-    "color": "",
-    "id": 0,
-    "status": 1,
-    "order": 0,
-    "hide": 0,
-    "row": users.length + 1, // Number of users plus one header row
-    "column": weekDays.length + 1, // 7 days plus one column for user names
-    "defaultRowHeight": 19,
-    "defaultColWidth": 73,
-    "celldata": generateCellData(),
-    // Add more config as needed
-  },
-  // Add more sheets as needed
-];
 
 const App = () => {
   const handleFileUpload = async (e) => {
@@ -92,60 +73,56 @@ const App = () => {
   
     setWorkbookData([{ name: sheetName, data: transformedData }]);
   };
-  // Define the days of the week
-  const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-  // Define the initial users (you can modify this based on your actual data)
-  const users = ["User1", "User2", "User3"]; // Add more users as needed
-
-  // Generate cell data for the agenda
-  const generateAgendaData = () => {
-    let celldata = [];
-
-    // Adding header with week days
-    weekDays.forEach((day, columnIndex) => {
-      celldata.push({
-        "r": 0, // row 0 for headers
-        "c": columnIndex, // respective column
-        "v": { "v": day } // day of the week
-      });
-    });
-
-    // Adding rows for each user
-    users.forEach((user, rowIndex) => {
-      celldata.push({
-        "r": rowIndex + 1, // starting from row 1 for users
-        "c": 0, // column 0 for user names
-        "v": { "v": user } // user name
-      });
-
-      // Filling the rest of the row for each day of the week
-      for (let col = 1; col < weekDays.length + 1; col++) {
-        celldata.push({
-          "r": rowIndex + 1,
-          "c": col,
-          "v": { "v": "" } // empty cells for agenda entries
-        });
-      }
-    });
-
-    return celldata;
-  };
-
-  // Initial data for the workbook
-  const initialData = [
+  const [workbookData, setWorkbookData] = useState([
     {
-      "name": "Week Agenda",
-      // ... other properties
-      "row": users.length + 1, // number of users plus one header row
-      "column": weekDays.length, // one column for each day of the week
-      "celldata": generateAgendaData(),
-      // ... other configurations
+      "name": "Cell",
+      "color": "",
+      "id": 0,
+      "status": 1,
+      "order": 0,
+      "hide": 0,
+      "row": 36,
+      "column": 18,
+      "defaultRowHeight": 19,
+      "defaultColWidth": 73,
+      "celldata": generateCellDataForCellSheet(),
+      "config": {},
+      "scrollLeft": 0,
+      "scrollTop": 315,
+      "luckysheet_select_save": [],
+      "calcChain": [],
+      "isPivotTable": false,
+      "pivotTable": {},
+      "filter_select": {},
+      "filter": null,
+      "luckysheet_alternateformat_save": [],
+      "luckysheet_alternateformat_save_modelCustom": [],
+      "luckysheet_conditionformat_save": {},
+      "frozen": {},
+      "chart": [],
+      "zoomRatio": 1,
+      "image": [],
+      "showGridLines": 1
     },
-    // ... additional sheets if needed
-  ];
-
-  const [workbookData, setWorkbookData] = useState(initialData);
+    {
+      "name": "Sheet2",
+      "color": "",
+      "id": "1",
+      "status": 0,
+      "order": 1,
+      "celldata": [],
+      "config": {}
+    },
+    {
+      "name": "Sheet3",
+      "color": "",
+      "id": "2",
+      "status": 0,
+      "order": 2,
+      "celldata": [],
+      "config": {}
+    }
+  ]);
 
   // ... rest of your component including file upload handler
 
