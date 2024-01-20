@@ -32,15 +32,24 @@ const WindowedScheduler = () =>{
     const handleRangeChange = useCallback((range: ParsedDatesRange)=>{
         setRange(range);
     }, []);
-    
+
     const handleTitleClick= (data: SchedulerProjectData)=>
     alert(`Item ${data.title}-${data.subtitle}was clicked` )
+
+    const handleFilterData= ()=> alert(`Filtered button was clicked`);
     return(
         <SchedulerWrapper 
         data={filteredData} 
         isLoading={false} 
         onRangeChange={handleRangeChange} 
         onTitleClick={handleTitleClick}
+        onFilterData={handleFilterData}
+        onItemClick={(data)=>
+        alert(
+            "Item clicked "+ data.label.title +" "+data.label.subtitle
+        )
+        }
+        config={{zoom: 1, maxRecordsPerPage:5, filterButtonState: -1, includeTakenHoursOnWeekendsInDayView: false}}
         />
     )
 }
