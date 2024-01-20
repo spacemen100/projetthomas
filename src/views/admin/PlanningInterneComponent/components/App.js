@@ -34,7 +34,7 @@ export default function Component() {
           filterButtonState: -1,
           includeTakenHoursOnWeekendsInDayView: false
         }}
-      />
+              />
     </section>
   );
 }
