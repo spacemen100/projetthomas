@@ -37,6 +37,75 @@ const App = () => {
     }
     setSession(null); // Resets the session state on logout
   };
+  // * Supabase Auth Error Message Translation
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type !== "childList" || mutation.addedNodes.length === 0)
+          return;
+  
+        for (const node of mutation.addedNodes) {
+          if (
+            node instanceof HTMLElement &&
+            (node.classList.contains("supabase-account-ui_ui-message") ||
+              node.classList.contains("supabase-auth-ui_ui-message"))
+          ) {
+            const originErrorMessage = node.innerHTML.trim();
+  
+            let translatedErrorMessage;
+            switch (originErrorMessage) {
+              case "To signup, please provide your email":
+                translatedErrorMessage = "Pour vous inscrire, veuillez fournir votre email";
+                break;
+              case "Signup requires a valid password":
+                translatedErrorMessage = "L'inscription nécessite un mot de passe valide";
+                break;
+              case "User already registered":
+                translatedErrorMessage = "Utilisateur déjà enregistré";
+                break;
+              case "Only an email address or phone number should be provided on signup.":
+                translatedErrorMessage = "Seulement une adresse email ou un numéro de téléphone doit être fourni lors de l'inscription.";
+                break;
+              case "Signups not allowed for this instance":
+                translatedErrorMessage = "Les inscriptions ne sont pas autorisées pour cette instance";
+                break;
+              case "Email signups are disabled":
+                translatedErrorMessage = "Les inscriptions par email sont désactivées";
+                break;
+              case "Email link is invalid or has expired":
+                translatedErrorMessage = "Le lien de l'email est invalide ou a expiré";
+                break;
+              case "Token has expired or is invalid":
+                translatedErrorMessage = "Le jeton a expiré ou est invalide";
+                break;
+              case "The new email address provided is invalid":
+                translatedErrorMessage = "La nouvelle adresse email fournie est invalide";
+                break;
+              case "Password should be at least 6 characters":
+                translatedErrorMessage = "Le mot de passe doit comporter au moins 6 caractères";
+                break;
+              case "Invalid login credentials":
+                translatedErrorMessage = "Identifiants de connexion invalides";
+                break;
+              default:
+                translatedErrorMessage = "Erreur inconnue"; // Default error message
+                break;
+            }
+  
+            if (!document.querySelector("#auth-forgot-password")) {
+              node.innerHTML = translatedErrorMessage || originErrorMessage;
+            }
+          }
+        }
+      });
+    });
+  
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  }, []);
+  
 
   return (
     <ChakraProvider theme={theme}>
@@ -82,7 +151,7 @@ const App = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  
+
                   <Auth
                     supabaseClient={supabase}
                     theme="default"
@@ -97,7 +166,7 @@ const App = () => {
                         },
                       },
                     }}
-
+                    
                     providers={['linkedin']}
                     localization={{
                       variables: {
@@ -156,13 +225,13 @@ const App = () => {
                     }}
                   />
                 </Box>
-                </>
+</>
               ) : (
 
                 <Switch>
-
+                  
                   <Route path={`/admin`} component={AdminLayout} />
-                  <Redirect from='/' to='/admin' />
+                                    <Redirect from='/' to='/admin' />
                 </Switch>
 
               )}
