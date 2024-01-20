@@ -1,11 +1,15 @@
 import {  useState } from "react";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+import "dayjs/locale/fr"; // Import the French locale
 import { Scheduler, SchedulerData } from "@bitnoi.se/react-scheduler";
 dayjs.extend(isBetween);
 
 export default function Component() {
   const [isLoading] = useState(false); 
+
+  // Set the locale to French
+  dayjs.locale("fr");
 
   const handleItemClick = (item) => {
     if (item.label && item.label.title) {
@@ -34,7 +38,7 @@ export default function Component() {
           filterButtonState: -1,
           includeTakenHoursOnWeekendsInDayView: false
         }}
-              />
+      />
     </section>
   );
 }
