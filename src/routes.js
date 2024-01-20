@@ -83,7 +83,7 @@ const routes = [
   {
     name: "Excel plannning",
     layout: "/admin",
-    path: "/upload-and-view-excel-fortune", // Choose an appropriate path
+    path: "/view-excel-fortune", // Choose an appropriate path
     icon: <Icon as={FcGrid} width='20px' height='20px' color='inherit' />,
     component: FichierExcelFortune, // Reference your new component
     // Add any additional properties if needed
