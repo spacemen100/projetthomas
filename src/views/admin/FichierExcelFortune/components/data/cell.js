@@ -10,10 +10,14 @@ const cell = {
   defaultRowHeight: 19,
   defaultColWidth: 100,
   celldata: [], // Fill this with your scheduled data
-  config: {},
+  config: {
+    rowlen: {}, // Custom row heights (if needed)
+    borderInfo: [], // Custom borders (if needed)
+    merge: {}, // Cell merging (if needed)
+  },
 };
 
-// Define the days of the week as column headers
+// Define the days of the week as column headers and set background to green
 for (let c = 0; c < 7; c++) {
   cell.celldata.push({
     r: 0, // First row for headers
@@ -21,7 +25,8 @@ for (let c = 0; c < 7; c++) {
     v: {
       ct: { fa: "General", t: "g" },
       v: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][c]
-    }
+    },
+    bg: "#00FF00" // Background color set to green
   });
 }
 
