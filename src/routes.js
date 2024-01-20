@@ -17,6 +17,7 @@ import ClientCalendar from 'views/admin/ClientCalendar';
 import YourExcelPlanningComponent from 'views/admin/YourExcelPlanningComponent';
 import TelechargerUnFichierExcel from 'views/admin/TelechargerUnFichierExcel'; 
 import FichierExcelFortune from 'views/admin/FichierExcelFortune';
+import PlanningInterneComponent from 'views/admin/PlanningInterneComponent';
 
 const routes = [
   {
@@ -88,6 +89,14 @@ const routes = [
     component: FichierExcelFortune, // Reference your new component
     // Add any additional properties if needed
   },
+  {
+    name: "Planning interne",
+    layout: "/admin",
+    path: "/planning-interne", // Choose an appropriate path
+    icon: <Icon as={FcGrid} width='20px' height='20px' color='inherit' />, // Use an appropriate icon
+    component: PlanningInterneComponent, // Reference your new component
+    // Add any additional properties if needed
+  },  
 ];
 
 export default routes;

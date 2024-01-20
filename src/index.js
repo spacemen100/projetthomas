@@ -43,7 +43,7 @@ const App = () => {
       mutations.forEach((mutation) => {
         if (mutation.type !== "childList" || mutation.addedNodes.length === 0)
           return;
-  
+
         for (const node of mutation.addedNodes) {
           if (
             node instanceof HTMLElement &&
@@ -51,7 +51,7 @@ const App = () => {
               node.classList.contains("supabase-auth-ui_ui-message"))
           ) {
             const originErrorMessage = node.innerHTML.trim();
-  
+
             let translatedErrorMessage;
             switch (originErrorMessage) {
               case "To signup, please provide your email":
@@ -91,7 +91,7 @@ const App = () => {
                 translatedErrorMessage = "Erreur inconnue"; // Default error message
                 break;
             }
-  
+
             if (!document.querySelector("#auth-forgot-password")) {
               node.innerHTML = translatedErrorMessage || originErrorMessage;
             }
@@ -99,13 +99,13 @@ const App = () => {
         }
       });
     });
-  
+
     observer.observe(document.body, {
       childList: true,
       subtree: true,
     });
   }, []);
-  
+
 
   return (
     <ChakraProvider theme={theme}>
@@ -141,8 +141,8 @@ const App = () => {
               )}
               {!session ? (<>
                 <Text fontSize="2xl" fontWeight="bold" mb="4" textAlign="center" pt="10px">
-                📢Salut Thomas🖐🏻, depuis mardi, j'ai implémenté l'authentification🔐 par mail (LinkeldIn c'est pas encore ça mais je discute sur le discord de supabase... et sinon nouvelles options: discount %, whatsapp et excel + planning interne en cours🚀)
-</Text>
+                  📢Salut Thomas🖐🏻, depuis mardi, j'ai implémenté l'authentification🔐 par mail (LinkeldIn c'est pas encore ça mais je discute sur le discord de supabase... et sinon nouvelles options: discount %, whatsapp et excel + planning interne en cours🚀)
+                </Text>
                 <Box
                   width="90%"
                   margin="auto"
@@ -166,7 +166,7 @@ const App = () => {
                         },
                       },
                     }}
-                    
+
                     providers={['linkedin']}
                     localization={{
                       variables: {
@@ -225,15 +225,12 @@ const App = () => {
                     }}
                   />
                 </Box>
-</>
+              </>
               ) : (
-
                 <Switch>
-                  
                   <Route path={`/admin`} component={AdminLayout} />
-                                    <Redirect from='/' to='/admin' />
+                  <Redirect from='/' to='/admin' />
                 </Switch>
-
               )}
             </Box>
           </HashRouter>
