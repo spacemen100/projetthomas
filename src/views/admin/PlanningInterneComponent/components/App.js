@@ -1,30 +1,39 @@
-"use client";
-import { useCallback, useMemo, useState } from "react";
+import {  useState } from "react";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-import { Scheduler, SchedulerData, SchedulerProjectData } from "@bitnoi.se/react-scheduler";
+import { Scheduler, SchedulerData } from "@bitnoi.se/react-scheduler";
 dayjs.extend(isBetween);
 
 export default function Component() {
-  const [filterButtonState, setFilterButtonState] = useState(0);
   const [isLoading] = useState(false); 
-  const handleTitleClick = (data) =>
-    alert(`Item ${data.title}-${data.subtitle}was clicked`)
 
-  const handleFilterData = () => alert(`Filtered button was clicked`);
+  const handleItemClick = (item) => {
+    if (item.label && item.label.title) {
+      // This is a title click
+      alert(`Title ${item.label.title} was clicked`);
+    } else {
+      // This is a regular item click
+      alert(`Item ${item.title}-${item.subtitle} was clicked`);
+    }
+  };
+
+  const handleFilterData = () => {
+    alert(`Filtered button was clicked`);
+  };
+
   return (
     <section>
       <Scheduler
         data={mockedSchedulerData}
         isLoading={isLoading}        
-        onTitleClick={handleTitleClick}
+        onItemClick={handleItemClick}
         onFilterData={handleFilterData}
-        onItemClick={(data)=>
-        alert(
-            "Item clicked "+ data.label.title +" "+data.label.subtitle
-        )
-        }
-        config={{zoom: 1, maxRecordsPerPage:5, filterButtonState: -1, includeTakenHoursOnWeekendsInDayView: false}}
+        config={{
+          zoom: 1,
+          maxRecordsPerPage: 5,
+          filterButtonState: -1,
+          includeTakenHoursOnWeekendsInDayView: false
+        }}
       />
     </section>
   );
