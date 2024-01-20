@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import 'assets/css/App.css';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AdminLayout from 'layouts/admin';
-import { ChakraProvider, IconButton, Box, Flex, Text } from '@chakra-ui/react';
+import { ChakraProvider, IconButton, Box, Flex, Text, Tooltip } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
 import { Auth } from '@supabase/auth-ui-react';
@@ -115,14 +115,15 @@ const App = () => {
             <Box position="relative">
               {session && (
                 <Flex
-                  position="absolute"
-                  top="1rem"
-                  right="1rem"
-                  align="center"
-                  zIndex={1000}
-                  onClick={handleLogout}
+                position="absolute"
+                top="1rem"
+                right="1rem"
+                align="center"
+                zIndex={1000}
+                onClick={handleLogout}
                   _hover={{ cursor: 'pointer' }} // Change cursor on hover
-                >
+              >
+                <Tooltip label="Déconnexion" hasArrow placement="top">
                   <IconButton
                     colorScheme="blue"
                     onClick={handleLogout}
@@ -130,14 +131,9 @@ const App = () => {
                     aria-label="Logout"
                     size="sm"
                   />
-                  <Text
-                    ml="2"
-                    fontSize={{ base: '0', md: 'sm' }} // Hide text on small screens
-                    display={{ base: 'none', md: 'inline' }} // Hide on small screens, show on medium and larger screens
-                  >
-                    Déconnexion
-                  </Text>
-                </Flex>
+                </Tooltip>
+              </Flex>
+              
               )}
               {!session ? (<>
                 <Text fontSize="2xl" fontWeight="bold" mb="4" textAlign="center" pt="10px">
