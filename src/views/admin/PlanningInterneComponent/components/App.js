@@ -63,20 +63,22 @@ export default function Component() {
 
   const handleItemClick = (item) => {
     console.log('Clicked item:', item); // Debug: Log the clicked item
-  
+
     // Assuming the structure of item for team/user has 'label' and 'title' properties
     if (item.label && item.label.title) {
       // This is a title click (team/user)
       alert(`Title ${item.label.title} was clicked`);
     } else if (item.title && item.subtitle) {
-      // Assuming the structure of item for an action has 'title' and 'subtitle'
       // This is a regular item click (action)
       alert(`Action ${item.title}-${item.subtitle} was clicked`);
     } else {
       console.log('Unknown item structure:', item); // Handle unknown item structure
     }
   };
-  
+
+  const handleActionItemClick = (action) => {
+    alert(`Action ${action.title}-${action.subtitle} was clicked`);
+  };
 
   const handleFilterData = () => {
     alert(`Filtered button was clicked`);
@@ -88,8 +90,8 @@ export default function Component() {
         data={data}
         isLoading={isLoading}        
         onItemClick={handleItemClick}
+        onTileClick={handleActionItemClick}
         onRangeChange={(newRange) => console.log(newRange)}
-        onTileClick={(clickedResource) => console.log(clickedResource)}
         onFilterData={handleFilterData}
         onClearFilterData={() => {
           // Some clearing filters logic...
