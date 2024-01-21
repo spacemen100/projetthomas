@@ -137,7 +137,7 @@ const App = () => {
               )}
               {!session ? (<>
                 <Text fontSize="2xl" fontWeight="bold" mb="4" textAlign="center" pt="10px">
-                  📢Salut Thomas🖐🏻, depuis mardi, j'ai implémenté l'authentification🔐 par mail (LinkeldIn c'est pas encore ça mais je discute sur le discord de supabase... et sinon nouvelles options: discount %, whatsapp et excel + planning interne en cours🚀)
+                  📢Salut Thomas🖐🏻, depuis mardi, j'ai implémenté le planning interne📅, l'authentification🔐 par mail (LinkeldIn c'est pas encore ça mais je discute sur le discord de supabase... et sinon nouvelles options: discount %🔖, whatsapp 💬et excel + planning interne en cours🚀)
                 </Text>
                 <Box
                   width="90%"
