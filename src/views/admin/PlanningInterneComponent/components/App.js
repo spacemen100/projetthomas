@@ -2,7 +2,7 @@ import {  useState } from "react";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr"; // Import the French locale
-import { Scheduler, SchedulerData } from "@bitnoi.se/react-scheduler";
+import { Scheduler, SchedulerData } from "@spacemen1000/react-scheduler";
 dayjs.extend(isBetween);
 
 export default function Component() {
@@ -36,7 +36,8 @@ export default function Component() {
           zoom: 1,
           maxRecordsPerPage: 5,
           filterButtonState: -1,
-          includeTakenHoursOnWeekendsInDayView: false
+          includeTakenHoursOnWeekendsInDayView: false,
+          lang:'fr',
         }}
       />
     </section>
