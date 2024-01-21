@@ -9,6 +9,7 @@ dayjs.extend(isBetween);
 export default function Component() {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [filterButtonState, setFilterButtonState] = useState(0);
 
   useEffect(() => {
     setLoading(true);
@@ -61,14 +62,21 @@ export default function Component() {
   dayjs.locale("fr");
 
   const handleItemClick = (item) => {
+    console.log('Clicked item:', item); // Debug: Log the clicked item
+  
+    // Assuming the structure of item for team/user has 'label' and 'title' properties
     if (item.label && item.label.title) {
-      // This is a title click
+      // This is a title click (team/user)
       alert(`Title ${item.label.title} was clicked`);
+    } else if (item.title && item.subtitle) {
+      // Assuming the structure of item for an action has 'title' and 'subtitle'
+      // This is a regular item click (action)
+      alert(`Action ${item.title}-${item.subtitle} was clicked`);
     } else {
-      // This is a regular item click
-      alert(`Item ${item.title}-${item.subtitle} was clicked`);
+      console.log('Unknown item structure:', item); // Handle unknown item structure
     }
   };
+  
 
   const handleFilterData = () => {
     alert(`Filtered button was clicked`);
@@ -80,7 +88,13 @@ export default function Component() {
         data={data}
         isLoading={isLoading}        
         onItemClick={handleItemClick}
+        onRangeChange={(newRange) => console.log(newRange)}
+        onTileClick={(clickedResource) => console.log(clickedResource)}
         onFilterData={handleFilterData}
+        onClearFilterData={() => {
+          // Some clearing filters logic...
+          setFilterButtonState(0)
+        }}
         config={{
           zoom: 1,
           maxRecordsPerPage: 5,
