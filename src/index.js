@@ -115,25 +115,25 @@ const App = () => {
             <Box position="relative">
               {session && (
                 <Flex
-                position="absolute"
-                top="1rem"
-                right="1rem"
-                align="center"
-                zIndex={1000}
-                onClick={handleLogout}
+                  position="absolute"
+                  top="3rem" // Changed from top to bottom
+                  right="1rem"
+                  align="center"
+                  zIndex={1000}
+                  onClick={handleLogout}
                   _hover={{ cursor: 'pointer' }} // Change cursor on hover
-              >
-                <Tooltip label="Déconnexion" hasArrow placement="top">
-                  <IconButton
-                    colorScheme="blue"
-                    onClick={handleLogout}
-                    icon={<FcDataEncryption />}
-                    aria-label="Logout"
-                    size="sm"
-                  />
-                </Tooltip>
-              </Flex>
-              
+                >
+                  <Tooltip label="Déconnexion" hasArrow placement="top">
+                    <IconButton
+                      colorScheme="blue"
+                      onClick={handleLogout}
+                      icon={<FcDataEncryption />}
+                      aria-label="Logout"
+                      size="sm"
+                    />
+                  </Tooltip>
+                </Flex>
+
               )}
               {!session ? (<>
                 <Text fontSize="2xl" fontWeight="bold" mb="4" textAlign="center" pt="10px">
