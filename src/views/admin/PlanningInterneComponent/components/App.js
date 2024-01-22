@@ -244,10 +244,7 @@ export default function Component() {
           <ModalBody>
             {selectedAction && (
               <>
-                <FormControl>
-                  <FormLabel>Action ID</FormLabel>
-                  <Input value={selectedAction.id} isReadOnly />
-                </FormControl>
+
                 <FormControl>
                   <FormLabel>Action Title</FormLabel>
                   <Input
@@ -256,10 +253,6 @@ export default function Component() {
                       setSelectedAction({ ...selectedAction, title: e.target.value })
                     }
                   />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Action ID</FormLabel>
-                  <Input value={selectedAction.id} isReadOnly />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Start Date</FormLabel>
