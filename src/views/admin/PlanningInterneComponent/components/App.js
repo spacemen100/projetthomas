@@ -4,15 +4,15 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr";
 import { Scheduler } from "@spacemen1000/react-scheduler";
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react"; // Import Chakra UI components
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
 dayjs.extend(isBetween);
 
 export default function Component() {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [filterButtonState, setFilterButtonState] = useState(0);
-  const [isActionModalOpen, setIsActionModalOpen] = useState(false); // State to control modal visibility
-  const [selectedAction, setSelectedAction] = useState(null); // State to store the selected action
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+  const [selectedAction, setSelectedAction] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -24,7 +24,6 @@ export default function Component() {
       if (error) {
         console.log("error", error);
       } else {
-        // Group actions by team
         const groupedData = vianneyActions.reduce((acc, action) => {
           if (!acc[action.team_to_which_its_attached]) {
             acc[action.team_to_which_its_attached] = {
@@ -51,7 +50,6 @@ export default function Component() {
           return acc;
         }, {});
 
-        // Convert grouped data into array format
         const transformedData = Object.values(groupedData);
         setData(transformedData);
       }
@@ -61,23 +59,24 @@ export default function Component() {
     fetchData();
   }, []);
 
-  // Set the locale to French
   dayjs.locale("fr");
 
   const handleItemClick = (item) => {
-    console.log('Clicked item:', item); // Debug: Log the clicked item
+    console.log('Clicked item:', item);
 
-    // Assuming the structure of item for team/user has 'label' and 'title' properties
     if (item.label && item.label.title) {
-      // This is a title click (team/user)
       alert(`Title ${item.label.title} was clicked`);
     } else if (item.title && item.subtitle) {
       // This is a regular item click (action)
-      setSelectedAction(item); // Store the selected action
-      openActionModal(); // Open the action modal
     } else {
-      console.log('Unknown item structure:', item); // Handle unknown item structure
+      console.log('Unknown item structure:', item);
     }
+  };
+
+  const handleActionItemClick = (action) => {
+    console.log('Action clicked:', action);
+    setSelectedAction(action); // Store the selected action
+    openActionModal(); // Open the action modal
   };
 
   const openActionModal = () => {
@@ -86,11 +85,7 @@ export default function Component() {
 
   const closeActionModal = () => {
     setIsActionModalOpen(false);
-    setSelectedAction(null); // Reset selected action
-  };
-
-  const handleActionItemClick = (action) => {
-    alert(`Action ${action.title}-${action.subtitle} was clicked`);
+    setSelectedAction(null);
   };
 
   const handleFilterData = () => {
@@ -98,8 +93,6 @@ export default function Component() {
   };
 
   const saveActionChanges = async () => {
-    // Assuming you have an API endpoint or method to update the action data
-    // Here, I'll demonstrate using Supabase to update the action
     if (selectedAction) {
       try {
         const { data: updatedAction, error } = await supabase
@@ -111,33 +104,30 @@ export default function Component() {
           })
           .eq('id', selectedAction.id)
           .single();
-  
+
         if (error) {
           console.error("Error updating action:", error);
-          // Handle the error as needed
         } else {
           console.log("Action updated successfully:", updatedAction);
-          closeActionModal(); // Close the modal after successful update
+          closeActionModal();
         }
       } catch (error) {
         console.error("Error updating action:", error);
-        // Handle the error as needed
       }
     }
   };
-  
+
   return (
     <section>
       <Scheduler
         data={data}
-        isLoading={isLoading}        
+        isLoading={isLoading}
         onItemClick={handleItemClick}
-        onTileClick={handleActionItemClick}
+        onTileClick={handleActionItemClick} 
         onRangeChange={(newRange) => console.log(newRange)}
         onFilterData={handleFilterData}
         onClearFilterData={() => {
-          // Some clearing filters logic...
-          setFilterButtonState(0)
+          setFilterButtonState(0);
         }}
         config={{
           zoom: 1,
@@ -147,8 +137,7 @@ export default function Component() {
           lang: 'fr',
         }}
       />
-      
-      {/* Action Details Modal */}
+
       <Modal isOpen={isActionModalOpen} onClose={closeActionModal}>
         <ModalOverlay />
         <ModalContent>
@@ -159,7 +148,6 @@ export default function Component() {
               <FormControl>
                 <FormLabel>Action Title</FormLabel>
                 <Input value={selectedAction.title} onChange={(e) => setSelectedAction({ ...selectedAction, title: e.target.value })} />
-                {/* Add more form controls for other action attributes */}
               </FormControl>
             )}
           </ModalBody>
