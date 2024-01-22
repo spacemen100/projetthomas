@@ -235,7 +235,6 @@ export default function Component() {
           lang: 'fr',
         }}
       />
-
       <Modal isOpen={isActionModalOpen} onClose={closeActionModal}>
         <ModalOverlay />
         <ModalContent>
@@ -256,11 +255,17 @@ export default function Component() {
                 </FormControl>
                 <FormControl>
                   <FormLabel>Début</FormLabel>
-                  <Input value={selectedAction.startDate.toString()} isReadOnly />
+                  <Input
+                    value={dayjs(selectedAction.startDate).format("DD MMMM YYYY")}
+
+                  />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Fin</FormLabel>
-                  <Input value={selectedAction.endDate.toString()} isReadOnly />
+                  <Input
+                    value={dayjs(selectedAction.endDate).format("DD MMMM YYYY")}
+
+                  />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Description</FormLabel>
@@ -270,21 +275,21 @@ export default function Component() {
                   <FormLabel>Discount🏷️</FormLabel>
                   <Switch
                     isChecked={selectedAction.discounted}
-                    isReadOnly
+
                   />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Pourcentage</FormLabel>
                   <Input
                     value={selectedAction.percentage_of_discount || 'N/A'}
-                    isReadOnly
+
                   />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Action réservée</FormLabel>
                   <Switch
                     isChecked={selectedAction.reserved_action}
-                    isReadOnly
+
                   />
                 </FormControl>
                 <FormControl>
