@@ -147,23 +147,20 @@ export default function Component() {
   };
   
   const saveUserChanges = async () => {
-    if (selectedUser && selectedAction) {
+    if (selectedAction && selectedUser) {
       try {
         // Step 1: Identify the team associated with the action
-        const teamUUID = selectedAction.team_to_which_its_attached;
+        const teamUUID = selectedAction.id;
   
-        // Step 2: Identify the users associated with the team
-        const { data: teamActions, error: teamActionsError } = await supabase
-          .from('vianney_actions')
-          .select('user_id')
-          .eq('team_to_which_its_attached', teamUUID);
+        // Step 2: Identify the actions associated with the team
+        const actionsInTeam = data.find((item) => item.id === teamUUID);
   
-        if (teamActionsError) {
-          console.error("Error fetching team actions:", teamActionsError);
+        if (!actionsInTeam) {
+          console.error("No actions found for the selected team.");
           return;
         }
   
-        const userUUIDs = teamActions.map((action) => action.user_id);
+        const actionUUIDs = actionsInTeam.data.map((action) => action.id);
   
         // Step 3: Update the users
         const { data: updatedUsers, error: updateUsersError } = await supabase
@@ -172,7 +169,7 @@ export default function Component() {
             nom: selectedUser.nom,
             prenom: selectedUser.prenom,
           })
-          .in('id', userUUIDs);
+          .in('id', actionUUIDs);
   
         if (updateUsersError) {
           console.error("Error updating users:", updateUsersError);
@@ -186,7 +183,8 @@ export default function Component() {
     } else {
       console.error("selectedAction or selectedUser is null.");
     }
-  };  
+  };
+  
   
   return (
     <section>
