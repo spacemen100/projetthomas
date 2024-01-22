@@ -91,15 +91,59 @@ export default function Component() {
     }
   };
 
-  const handleActionItemClick = (action) => {
+  const handleActionItemClick = async (action) => {
     console.log('Action clicked:', action);
-    setSelectedAction(action);
-    openActionModal();
+    try {
+      // Fetch additional action details using the action id
+      let { data: additionalActionData, error } = await supabase
+        .from('vianney_actions') // Replace with your actual table name
+        .select('discounted, percentage_of_discount, reserved_action')
+        .eq('id', action.id);
+  
+      if (error) {
+        console.error('Error fetching additional action details:', error);
+      } else {
+        // Merge the additional data with the selected action
+        const selectedActionWithAdditionalData = {
+          ...action,
+          ...additionalActionData[0],
+        };
+        setSelectedAction(selectedActionWithAdditionalData);
+        openActionModal();
+      }
+    } catch (error) {
+      console.error('Error fetching additional action details:', error);
+    }
+  };
+  
+
+  // Update your openActionModal function to fetch additional data for the selected action
+  const openActionModal = async () => {
+    setIsActionModalOpen(true);
+
+    // Fetch additional action details using the action id
+    if (selectedAction) {
+      try {
+        let { data: additionalActionData, error } = await supabase
+          .from('vianney_actions') // Replace with your actual table name
+          .select('discounted, percentage_of_discount, reserved_action')
+          .eq('id', selectedAction.id);
+
+        if (error) {
+          console.error('Error fetching additional action details:', error);
+        } else {
+          // Merge the additional data with the selectedAction
+          setSelectedAction({
+            ...selectedAction,
+            ...additionalActionData[0],
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching additional action details:', error);
+      }
+    }
   };
 
-  const openActionModal = () => {
-    setIsActionModalOpen(true);
-  };
 
   const closeActionModal = () => {
     setIsActionModalOpen(false);
@@ -201,6 +245,10 @@ export default function Component() {
             {selectedAction && (
               <>
                 <FormControl>
+                  <FormLabel>Action ID</FormLabel>
+                  <Input value={selectedAction.id} isReadOnly />
+                </FormControl>
+                <FormControl>
                   <FormLabel>Action Title</FormLabel>
                   <Input
                     value={selectedAction.title}
@@ -224,6 +272,24 @@ export default function Component() {
                 <FormControl>
                   <FormLabel>Action Description</FormLabel>
                   <Input value={selectedAction.description} isReadOnly />
+                </FormControl>   
+                <FormControl>
+                  <FormLabel>Discounted</FormLabel>
+                  <Input value={selectedAction.discounted ? 'Yes' : 'No'} isReadOnly />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Percentage of Discount</FormLabel>
+                  <Input
+                    value={selectedAction.percentage_of_discount || 'N/A'}
+                    isReadOnly
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Reserved Action</FormLabel>
+                  <Input
+                    value={selectedAction.reserved_action || 'N/A'}
+                    isReadOnly
+                  />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Client Name</FormLabel>
