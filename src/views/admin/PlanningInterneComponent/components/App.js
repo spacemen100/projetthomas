@@ -4,12 +4,15 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr";
 import { Scheduler } from "@spacemen1000/react-scheduler";
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react"; // Import Chakra UI components
 dayjs.extend(isBetween);
 
 export default function Component() {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [filterButtonState, setFilterButtonState] = useState(0);
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false); // State to control modal visibility
+  const [selectedAction, setSelectedAction] = useState(null); // State to store the selected action
 
   useEffect(() => {
     setLoading(true);
@@ -70,10 +73,20 @@ export default function Component() {
       alert(`Title ${item.label.title} was clicked`);
     } else if (item.title && item.subtitle) {
       // This is a regular item click (action)
-      alert(`Action ${item.title}-${item.subtitle} was clicked`);
+      setSelectedAction(item); // Store the selected action
+      openActionModal(); // Open the action modal
     } else {
       console.log('Unknown item structure:', item); // Handle unknown item structure
     }
+  };
+
+  const openActionModal = () => {
+    setIsActionModalOpen(true);
+  };
+
+  const closeActionModal = () => {
+    setIsActionModalOpen(false);
+    setSelectedAction(null); // Reset selected action
   };
 
   const handleActionItemClick = (action) => {
@@ -105,6 +118,32 @@ export default function Component() {
           lang: 'fr',
         }}
       />
+      
+      {/* Action Details Modal */}
+      <Modal isOpen={isActionModalOpen} onClose={closeActionModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Action Details</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {selectedAction && (
+              <FormControl>
+                <FormLabel>Action Title</FormLabel>
+                <Input value={selectedAction.title} onChange={(e) => setSelectedAction({ ...selectedAction, title: e.target.value })} />
+                {/* Add more form controls for other action attributes */}
+              </FormControl>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={closeActionModal}>
+              Close
+            </Button>
+            <Button colorScheme="green" onClick={saveActionChanges}>
+              Save Changes
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </section>
   );
 }
