@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr";
 import { Scheduler } from "@spacemen1000/react-scheduler";
-import { Button, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Button, Text, Flex, Box, Badge, Heading, Avatar, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
 dayjs.extend(isBetween);
 
 export default function Component() {
@@ -23,7 +23,7 @@ export default function Component() {
     v_card: "",
     photo_profile_url: ""
   });
-  
+
 
   useEffect(() => {
     setLoading(true);
@@ -139,16 +139,16 @@ export default function Component() {
       .from('vianney_actions') // Replace with your actual table name
       .select('*')
       .eq('team_to_which_its_attached', user.id);
-  
+
     if (error) {
       console.error('Error fetching user details:', error);
       return; // Exit the function if there's an error
     }
-  
+
     if (userDetails && userDetails.length > 0) {
       // Assuming you want the first row
       const firstUserDetail = userDetails[0];
-  
+
       setSelectedUser({
         id: user.id || "",
         nom: user.label.title || "",
@@ -162,7 +162,7 @@ export default function Component() {
     } else {
       console.log('No user details found for the given ID');
     }
-  
+
     setIsUserModalOpen(true);
   };
   const closeUserModal = () => {
@@ -223,13 +223,36 @@ export default function Component() {
           <ModalBody>
             {selectedUser && (
               <>
-                <Text>Nom: {selectedUser.nom || 'N/A'}</Text>
-                <Text>Statut dans la boite: {selectedUser.statut_dans_la_boite || 'N/A'}</Text>
-                <Text>Resume CV: {selectedUser.resume_cv || 'N/A'}</Text>
-                <Text>Prénom: {selectedUser.prenom || 'N/A'}</Text>
-                <Text>User ID: {selectedUser.user_id || 'N/A'}</Text>
-                <Text>V Card: {selectedUser.v_card || 'N/A'}</Text>
-                <Text>Photo Profile URL: {selectedUser.photo_profile_url || 'N/A'}</Text>
+                <Flex alignItems="center" mb="2">
+                  <Badge bgColor="lightblue" color="black" p="2" borderRadius={5}>
+                    Consultant : {selectedUser.nom} {selectedUser.prenom}
+                  </Badge>
+                </Flex>
+                <Flex p="2" mb="2" alignItems="center">
+                  <Box flex="1">
+                    <Heading size="sm">Statut dans la boite</Heading>
+                  </Box>
+                  <Box flex="2" ml="2">
+                    <Text>{selectedUser.statut_dans_la_boite || 'N/A'}</Text>
+                  </Box>
+                </Flex>
+                <Flex p="2" mb="2" alignItems="center">
+                  <Box flex="1">
+                    <Heading size="sm">V-Card</Heading>
+                  </Box>
+                  <Box flex="2" ml="2">
+                    <Text>{selectedUser.v_card || 'N/A'}</Text>
+                  </Box>
+                </Flex>
+                <Flex p="2" mb="2" alignItems="center">
+                  <Box flex="1">
+                    <Heading size="sm">Resume CV</Heading>
+                  </Box>
+                  <Box flex="2" ml="2">
+                    <Text>{selectedUser.resume_cv || 'N/A'}</Text>
+                  </Box>
+                </Flex>
+                <Avatar>Photo Profile URL: {selectedUser.photo_profile_url || 'N/A'}</Avatar>
               </>
             )}
           </ModalBody>
