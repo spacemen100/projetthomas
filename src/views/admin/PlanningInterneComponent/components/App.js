@@ -128,10 +128,13 @@ export default function Component() {
     // Set selectedAction based on the user's team_to_which_its_attached
     const actionForUser = data.find((item) => item.id === user.team_to_which_its_attached);
   
-    if (actionForUser) {
+    if (actionForUser && actionForUser.data.length > 0) {
       setSelectedAction(actionForUser.data[0]); // Assuming the user is associated with one action
     } else {
-      console.error("No action found for the selected user.");
+      console.warn("No action found for the selected user.");
+      // You can handle this case by providing a default action or displaying a message.
+      // For example:
+      // setSelectedAction({ title: "No Action Found" });
     }
   
     setSelectedUser({
@@ -141,7 +144,7 @@ export default function Component() {
     });
   
     setIsUserModalOpen(true);
-  };
+  };  
   
   const closeUserModal = () => {
     setSelectedUser({ nom: "", prenom: "" }); // Reset the selectedUser state
