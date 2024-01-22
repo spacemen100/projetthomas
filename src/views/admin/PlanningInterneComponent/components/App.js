@@ -133,38 +133,38 @@ export default function Component() {
     }
   };
 
-
   const openUserModal = async (user) => {
     // Fetch additional user details using the user id
     let { data: userDetails, error } = await supabase
       .from('vianney_actions') // Replace with your actual table name
       .select('*')
-      .eq('team_to_which_its_attached', user.id)
-      .single();
+      .eq('team_to_which_its_attached', user.id);
   
     if (error) {
       console.error('Error fetching user details:', error);
       return; // Exit the function if there's an error
     }
   
+    if (userDetails && userDetails.length > 0) {
+      // Assuming you want the first row
+      const firstUserDetail = userDetails[0];
   
-    setSelectedUser({
-      id: user.id || "",
-      nom: user.label.title || "",
-      statut_dans_la_boite: user.label.subtitle || "",
-      resume_cv: userDetails.resume_cv || "",
-      prenom: userDetails.prenom || "",
-      user_id: userDetails.user_id || "",
-      v_card: userDetails.v_card || "",
-      photo_profile_url: userDetails.photo_profile_url || ""
-    });
+      setSelectedUser({
+        id: user.id || "",
+        nom: user.label.title || "",
+        statut_dans_la_boite: user.label.subtitle || "",
+        resume_cv: firstUserDetail.resume_cv || "",
+        prenom: firstUserDetail.prenom || "",
+        user_id: firstUserDetail.user_id || "",
+        v_card: firstUserDetail.v_card || "",
+        photo_profile_url: firstUserDetail.photo_profile_url || ""
+      });
+    } else {
+      console.log('No user details found for the given ID');
+    }
   
     setIsUserModalOpen(true);
   };
-  
-  
-
-
   const closeUserModal = () => {
     setIsUserModalOpen(false);
   };
