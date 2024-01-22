@@ -15,7 +15,7 @@ export default function Component() {
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState({ nom: "", prenom: "" }); // Initialize with empty values
   const [isUserLocked, setIsUserLocked] = useState(true);
 
   useEffect(() => {
@@ -125,12 +125,16 @@ export default function Component() {
   };
 
   const openUserModal = (user) => {
-    setSelectedUser(user);
+    // Initialize selectedUser with the user's existing values
+    setSelectedUser({
+      nom: user.label.title || "",
+      prenom: user.label.subtitle || ""
+    });
     setIsUserModalOpen(true);
   };
 
   const closeUserModal = () => {
-    setSelectedUser(null);
+    setSelectedUser({ nom: "", prenom: "" }); // Reset the selectedUser state
     setIsUserModalOpen(false);
   };
 
