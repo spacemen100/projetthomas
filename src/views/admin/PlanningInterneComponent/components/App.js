@@ -127,12 +127,18 @@ export default function Component() {
   const openUserModal = (user) => {
     // Initialize selectedUser with the user's existing values
     setSelectedUser({
-      id: user.id, // Assuming you have the user's ID
+      id: user.id || "", // Assuming you have the user's ID
       nom: user.label.title || "",
       prenom: user.label.subtitle || ""
     });
+  
+    // Set selectedAction based on the user's team_to_which_its_attached
+    const actionForUser = data.find((item) => item.id === user.team_to_which_its_attached);
+    setSelectedAction(actionForUser);
+  
     setIsUserModalOpen(true);
   };
+  
   
   const closeUserModal = () => {
     setSelectedUser({ nom: "", prenom: "" }); // Reset the selectedUser state
