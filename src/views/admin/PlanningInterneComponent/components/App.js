@@ -275,7 +275,7 @@ export default function Component() {
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={closeUserModal}>
-              Close
+              Fermer
             </Button>
           </ModalFooter>
         </ModalContent>
