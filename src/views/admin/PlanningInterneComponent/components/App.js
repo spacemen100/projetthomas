@@ -127,17 +127,18 @@ export default function Component() {
   const openUserModal = (user) => {
     // Initialize selectedUser with the user's existing values
     setSelectedUser({
+      id: user.id, // Assuming you have the user's ID
       nom: user.label.title || "",
       prenom: user.label.subtitle || ""
     });
     setIsUserModalOpen(true);
   };
-
+  
   const closeUserModal = () => {
     setSelectedUser({ nom: "", prenom: "" }); // Reset the selectedUser state
     setIsUserModalOpen(false);
   };
-
+  
   const saveUserChanges = async () => {
     if (selectedUser) {
       try {
@@ -149,7 +150,7 @@ export default function Component() {
           })
           .eq('id', selectedUser.id)
           .single();
-
+  
         if (error) {
           console.error("Error updating user:", error);
         } else {
@@ -161,6 +162,7 @@ export default function Component() {
       }
     }
   };
+
 
   return (
     <section>
