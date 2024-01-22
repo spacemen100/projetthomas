@@ -188,9 +188,9 @@ export default function Component() {
             {selectedUser && (
               <FormControl>
                 <FormLabel>Nom</FormLabel>
-                <Input value={selectedUser.nom} isReadOnly={isUserLocked} />
+                <Input value={selectedUser.nom} onChange={(e) => setSelectedUser({ ...selectedUser, nom: e.target.value })} />
                 <FormLabel>Prenom</FormLabel>
-                <Input value={selectedUser.prenom} isReadOnly={isUserLocked} />
+                <Input value={selectedUser.prenom} onChange={(e) => setSelectedUser({ ...selectedUser, prenom: e.target.value })} />
               </FormControl>
             )}
           </ModalBody>
