@@ -14,7 +14,16 @@ export default function Component() {
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState({ nom: "", statut_dans_la_boite: "" }); // Initialize with empty values
+  const [selectedUser, setSelectedUser] = useState({
+    nom: "",
+    statut_dans_la_boite: "",
+    resume_cv: "",
+    prenom: "",
+    user_id: "",
+    v_card: "",
+    photo_profile_url: ""
+  });
+  
 
   useEffect(() => {
     setLoading(true);
@@ -142,19 +151,18 @@ export default function Component() {
       id: user.id || "", // Assuming you have the user's ID
       nom: user.label.title || "",
       statut_dans_la_boite: user.label.subtitle || "",
-      resume_cv: user.resume_cv || "", // Add other fields here
+      resume_cv: user.resume_cv || "",
       prenom: user.prenom || "",
       user_id: user.user_id || "",
       v_card: user.v_card || "",
-      photo_profile_url: user.photo_profile_url || "",
+      photo_profile_url: user.photo_profile_url || ""
     });
-
+    
     setIsUserModalOpen(true);
   };
 
 
   const closeUserModal = () => {
-    setSelectedUser({ nom: "", statut_dans_la_boite: "" }); // Reset the selectedUser state
     setIsUserModalOpen(false);
   };
 
