@@ -127,17 +127,22 @@ export default function Component() {
   const openUserModal = (user) => {
     // Set selectedAction based on the user's team_to_which_its_attached
     const actionForUser = data.find((item) => item.id === user.team_to_which_its_attached);
-    
+  
+    if (actionForUser) {
+      setSelectedAction(actionForUser.data[0]); // Assuming the user is associated with one action
+    } else {
+      console.error("No action found for the selected user.");
+    }
+  
     setSelectedUser({
       id: user.id || "", // Assuming you have the user's ID
       nom: user.label.title || "",
       prenom: user.label.subtitle || ""
     });
-    
-    setSelectedAction(actionForUser);
   
     setIsUserModalOpen(true);
   };
+  
   
   
   
