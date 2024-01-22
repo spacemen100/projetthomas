@@ -143,9 +143,6 @@ export default function Component() {
     setIsUserModalOpen(true);
   };
   
-  
-  
-  
   const closeUserModal = () => {
     setSelectedUser({ nom: "", prenom: "" }); // Reset the selectedUser state
     setIsUserModalOpen(false);
