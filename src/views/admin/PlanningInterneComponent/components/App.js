@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr";
 import { Scheduler } from "@spacemen1000/react-scheduler";
-import { Button, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input} from "@chakra-ui/react";
+import { Button, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
 dayjs.extend(isBetween);
 
 export default function Component() {
@@ -22,7 +22,7 @@ export default function Component() {
       let { data: vianneyActions, error } = await supabase
         .from('vianney_actions')
         .select('*');
-
+    
       if (error) {
         console.log("error", error);
       } else {
@@ -33,12 +33,12 @@ export default function Component() {
               label: {
                 icon: action.photo_profile_url,
                 title: action.nom,
-                subtitle: action.statut_dans_la_boite
+                subtitle: action.statut_dans_la_boite,
               },
-              data: []
+              data: [],
             };
           }
-
+    
           acc[action.team_to_which_its_attached].data.push({
             id: action.id,
             startDate: new Date(action.starting_date),
@@ -46,17 +46,24 @@ export default function Component() {
             title: action.action_name,
             description: action.action_comment,
             subtitle: action.name_of_the_client_that_reserved_it,
-            bgColor: action.color
+            bgColor: action.color,
+            // Add these fields to the item data
+            resume_cv: action.resume_cv,
+            prenom: action.prenom,
+            user_id: action.user_id,
+            v_card: action.v_card,
+            photo_profile_url: action.photo_profile_url,
           });
-
+    
           return acc;
         }, {});
-
+    
         const transformedData = Object.values(groupedData);
         setData(transformedData);
       }
       setLoading(false);
     };
+    
 
     fetchData();
   }, []);
@@ -122,7 +129,7 @@ export default function Component() {
   const openUserModal = (user) => {
     // Set selectedAction based on the user's team_to_which_its_attached
     const actionForUser = data.find((item) => item.id === user.team_to_which_its_attached);
-  
+
     if (actionForUser && actionForUser.data.length > 0) {
       setSelectedAction(actionForUser.data[0]); // Assuming the user is associated with one action
     } else {
@@ -131,7 +138,7 @@ export default function Component() {
       // For example:
       // setSelectedAction({ title: "No Action Found" });
     }
-  
+
     setSelectedUser({
       id: user.id || "", // Assuming you have the user's ID
       nom: user.label.title || "",
@@ -142,18 +149,18 @@ export default function Component() {
       v_card: user.v_card || "",
       photo_profile_url: user.photo_profile_url || "",
     });
-  
+
     setIsUserModalOpen(true);
   };
-  
-  
+
+
   const closeUserModal = () => {
     setSelectedUser({ nom: "", statut_dans_la_boite: "" }); // Reset the selectedUser state
     setIsUserModalOpen(false);
   };
-  
-  
-  
+
+
+
   return (
     <section>
       <Scheduler
@@ -200,30 +207,30 @@ export default function Component() {
       </Modal>
 
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-  <ModalOverlay />
-  <ModalContent>
-    <ModalHeader>User Details</ModalHeader>
-    <ModalCloseButton />
-    <ModalBody>
-      {selectedUser && (
-        <>
-          <Text>Nom: {selectedUser.nom}</Text>
-          <Text>statut_dans_la_boite: {selectedUser.statut_dans_la_boite}</Text>
-          <Text>Resume CV: {selectedUser.resume_cv}</Text>
-          <Text>Prenom: {selectedUser.prenom}</Text>
-          <Text>User ID: {selectedUser.user_id}</Text>
-          <Text>V Card: {selectedUser.v_card}</Text>
-          <Text>Photo Profile URL: {selectedUser.photo_profile_url}</Text>
-        </>
-      )}
-    </ModalBody>
-    <ModalFooter>
-      <Button colorScheme="blue" mr={3} onClick={closeUserModal}>
-        Close
-      </Button>
-    </ModalFooter>
-  </ModalContent>
-</Modal>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>User Details</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {selectedUser && (
+              <>
+                <Text>Nom: {selectedUser.nom}</Text>
+                <Text>statut_dans_la_boite: {selectedUser.statut_dans_la_boite}</Text>
+                <Text>Resume CV: {selectedUser.resume_cv}</Text>
+                <Text>Prenom: {selectedUser.prenom}</Text>
+                <Text>User ID: {selectedUser.user_id}</Text>
+                <Text>V Card: {selectedUser.v_card}</Text>
+                <Text>Photo Profile URL: {selectedUser.photo_profile_url}</Text>
+              </>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={closeUserModal}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
     </section>
   );
