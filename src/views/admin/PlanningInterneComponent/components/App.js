@@ -4,8 +4,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr";
 import { Scheduler } from "@spacemen1000/react-scheduler";
-import { Button, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, IconButton, Tooltip } from "@chakra-ui/react";
-import { FcLock, FcUnlock } from "react-icons/fc";
+import { Button, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input} from "@chakra-ui/react";
 dayjs.extend(isBetween);
 
 export default function Component() {
@@ -16,7 +15,6 @@ export default function Component() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState({ nom: "", prenom: "" }); // Initialize with empty values
-  const [isUserLocked, setIsUserLocked] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -120,9 +118,6 @@ export default function Component() {
     }
   };
 
-  const toggleUserLock = () => {
-    setIsUserLocked(!isUserLocked);
-  };
 
   const openUserModal = (user) => {
     // Set selectedAction based on the user's team_to_which_its_attached
@@ -212,13 +207,6 @@ export default function Component() {
       )}
     </ModalBody>
     <ModalFooter>
-      <Tooltip label={isUserLocked ? "Unlock User" : "Lock User"}>
-        <IconButton
-          icon={isUserLocked ? <FcUnlock /> : <FcLock />}
-          onClick={toggleUserLock}
-          variant="ghost"
-        />
-      </Tooltip>
       <Button colorScheme="blue" mr={3} onClick={closeUserModal}>
         Close
       </Button>
