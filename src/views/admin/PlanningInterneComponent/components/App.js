@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr";
 import { Scheduler } from "@spacemen1000/react-scheduler";
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, IconButton, Tooltip } from "@chakra-ui/react";
+import { Button, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, IconButton, Tooltip } from "@chakra-ui/react";
 import { FcLock, FcUnlock } from "react-icons/fc";
 dayjs.extend(isBetween);
 
@@ -151,86 +151,7 @@ export default function Component() {
     setIsUserModalOpen(false);
   };
   
-  const saveUserChanges = async () => {
-    if (selectedAction && selectedUser) {
-      try {
-        // Step 1: Identify the team associated with the action
-        const teamUUID = selectedAction.id;
   
-        // Step 2: Identify the actions associated with the team
-        const actionsInTeam = data.find((item) => item.id === teamUUID);
-  
-        if (!actionsInTeam) {
-          console.error("No actions found for the selected team.");
-          return;
-        }
-  
-        const actionUUIDs = actionsInTeam.data.map((action) => action.id);
-  
-        // Step 3: Update the users
-        const { data: updatedUsers, error: updateUsersError } = await supabase
-          .from('users')
-          .update({
-            nom: selectedUser.nom,
-            prenom: selectedUser.prenom,
-          })
-          .in('id', actionUUIDs);
-  
-        if (updateUsersError) {
-          console.error("Error updating users:", updateUsersError);
-        } else {
-          console.log("Users updated successfully:", updatedUsers);
-  
-          // Step 4: Update the "nom" field in all corresponding actions
-          await updateUserNomInActions(selectedUser, selectedUser.nom);
-  
-          closeUserModal();
-        }
-      } catch (error) {
-        console.error("Error updating user:", error);
-      }
-    } else {
-      console.error("selectedAction or selectedUser is null.");
-    }
-  };
-  
-  const updateUserNomInActions = async (userDetails, newNom) => {
-    if (userDetails) {
-      try {
-        // Step 1: Get the user's team ID
-        const teamID = userDetails.team_to_which_its_attached;
-  
-        // Step 2: Find all actions associated with the team
-        const actionsInTeam = data.find((item) => item.id === teamID);
-  
-        if (!actionsInTeam) {
-          console.error("No actions found for the selected team.");
-          return;
-        }
-  
-        // Step 3: Extract the action IDs
-        const actionIDs = actionsInTeam.data.map((action) => action.id);
-  
-        // Step 4: Update the "nom" field in all actions
-        const { data: updatedActions, error: updateActionsError } = await supabase
-          .from('vianney_actions')
-          .update({
-            nom: newNom,
-          })
-          .in('id', actionIDs);
-  
-        if (updateActionsError) {
-          console.error("Error updating actions:", updateActionsError);
-        } else {
-          console.log("Actions updated successfully:", updatedActions);
-        }
-      } catch (error) {
-        console.error("Error updating actions:", error);
-      }
-    } else {
-      console.error("User details are missing.");
-    }
-  };
   
   return (
     <section>
@@ -278,37 +199,32 @@ export default function Component() {
       </Modal>
 
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>User Details</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {selectedUser && (
-              <FormControl>
-                <FormLabel>Nom</FormLabel>
-                <Input value={selectedUser.nom} onChange={(e) => setSelectedUser({ ...selectedUser, nom: e.target.value })} />
-                <FormLabel>Prenom</FormLabel>
-                <Input value={selectedUser.prenom} onChange={(e) => setSelectedUser({ ...selectedUser, prenom: e.target.value })} />
-              </FormControl>
-            )}
-          </ModalBody>
-          <ModalFooter>
-            <Tooltip label={isUserLocked ? "Unlock User" : "Lock User"}>
-              <IconButton
-                icon={isUserLocked ? <FcUnlock /> : <FcLock />}
-                onClick={toggleUserLock}
-                variant="ghost"
-              />
-            </Tooltip>
-            <Button colorScheme="blue" mr={3} onClick={closeUserModal}>
-              Close
-            </Button>
-            <Button colorScheme="green" onClick={saveUserChanges}>
-              Save Changes
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader>User Details</ModalHeader>
+    <ModalCloseButton />
+    <ModalBody>
+      {selectedUser && (
+        <>
+          <Text>Nom: {selectedUser.nom}</Text>
+          <Text>Prenom: {selectedUser.prenom}</Text>
+        </>
+      )}
+    </ModalBody>
+    <ModalFooter>
+      <Tooltip label={isUserLocked ? "Unlock User" : "Lock User"}>
+        <IconButton
+          icon={isUserLocked ? <FcUnlock /> : <FcLock />}
+          onClick={toggleUserLock}
+          variant="ghost"
+        />
+      </Tooltip>
+      <Button colorScheme="blue" mr={3} onClick={closeUserModal}>
+        Close
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>
     </section>
   );
 }
