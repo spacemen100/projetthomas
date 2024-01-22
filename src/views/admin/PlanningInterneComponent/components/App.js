@@ -187,6 +187,43 @@ export default function Component() {
     }
   };
   
+  const updateUserNomInActions = async (userDetails, newNom) => {
+    if (userDetails) {
+      try {
+        // Step 1: Get the user's team ID
+        const teamID = userDetails.team_to_which_its_attached;
+  
+        // Step 2: Find all actions associated with the team
+        const actionsInTeam = data.find((item) => item.id === teamID);
+  
+        if (!actionsInTeam) {
+          console.error("No actions found for the selected team.");
+          return;
+        }
+  
+        // Step 3: Extract the action IDs
+        const actionIDs = actionsInTeam.data.map((action) => action.id);
+  
+        // Step 4: Update the "nom" field in all actions
+        const { data: updatedActions, error: updateActionsError } = await supabase
+          .from('vianney_actions')
+          .update({
+            nom: newNom,
+          })
+          .in('id', actionIDs);
+  
+        if (updateActionsError) {
+          console.error("Error updating actions:", updateActionsError);
+        } else {
+          console.log("Actions updated successfully:", updatedActions);
+        }
+      } catch (error) {
+        console.error("Error updating actions:", error);
+      }
+    } else {
+      console.error("User details are missing.");
+    }
+  };
   
   return (
     <section>
