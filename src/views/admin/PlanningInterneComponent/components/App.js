@@ -138,6 +138,30 @@ export default function Component() {
     setIsUserModalOpen(false);
   };
 
+  const saveUserChanges = async () => {
+    if (selectedUser) {
+      try {
+        const { data: updatedUser, error } = await supabase
+          .from('users')
+          .update({
+            nom: selectedUser.nom,
+            prenom: selectedUser.prenom,
+          })
+          .eq('id', selectedUser.id)
+          .single();
+
+        if (error) {
+          console.error("Error updating user:", error);
+        } else {
+          console.log("User updated successfully:", updatedUser);
+          closeUserModal();
+        }
+      } catch (error) {
+        console.error("Error updating user:", error);
+      }
+    }
+  };
+
   return (
     <section>
       <Scheduler
@@ -208,6 +232,9 @@ export default function Component() {
             </Tooltip>
             <Button colorScheme="blue" mr={3} onClick={closeUserModal}>
               Close
+            </Button>
+            <Button colorScheme="green" onClick={saveUserChanges}>
+              Save Changes
             </Button>
           </ModalFooter>
         </ModalContent>
