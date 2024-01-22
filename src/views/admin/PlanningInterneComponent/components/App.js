@@ -14,7 +14,7 @@ export default function Component() {
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState({ nom: "", prenom: "" }); // Initialize with empty values
+  const [selectedUser, setSelectedUser] = useState({ nom: "", statut_dans_la_boite: "" }); // Initialize with empty values
 
   useEffect(() => {
     setLoading(true);
@@ -135,14 +135,14 @@ export default function Component() {
     setSelectedUser({
       id: user.id || "", // Assuming you have the user's ID
       nom: user.label.title || "",
-      prenom: user.label.subtitle || ""
+      statut_dans_la_boite: user.label.subtitle || ""
     });
   
     setIsUserModalOpen(true);
   };  
   
   const closeUserModal = () => {
-    setSelectedUser({ nom: "", prenom: "" }); // Reset the selectedUser state
+    setSelectedUser({ nom: "", statut_dans_la_boite: "" }); // Reset the selectedUser state
     setIsUserModalOpen(false);
   };
   
@@ -202,7 +202,7 @@ export default function Component() {
       {selectedUser && (
         <>
           <Text>Nom: {selectedUser.nom}</Text>
-          <Text>Prenom: {selectedUser.prenom}</Text>
+          <Text>statut_dans_la_boite: {selectedUser.statut_dans_la_boite}</Text>
         </>
       )}
     </ModalBody>
