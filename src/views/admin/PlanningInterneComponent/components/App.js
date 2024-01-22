@@ -22,7 +22,7 @@ export default function Component() {
       let { data: vianneyActions, error } = await supabase
         .from('vianney_actions')
         .select('*');
-    
+
       if (error) {
         console.log("error", error);
       } else {
@@ -38,7 +38,7 @@ export default function Component() {
               data: [],
             };
           }
-    
+
           acc[action.team_to_which_its_attached].data.push({
             id: action.id,
             startDate: new Date(action.starting_date),
@@ -54,16 +54,15 @@ export default function Component() {
             v_card: action.v_card,
             photo_profile_url: action.photo_profile_url,
           });
-    
+
           return acc;
         }, {});
-    
+
         const transformedData = Object.values(groupedData);
         setData(transformedData);
       }
       setLoading(false);
     };
-    
 
     fetchData();
   }, []);
@@ -205,7 +204,6 @@ export default function Component() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <ModalOverlay />
         <ModalContent>
@@ -214,13 +212,13 @@ export default function Component() {
           <ModalBody>
             {selectedUser && (
               <>
-                <Text>Nom: {selectedUser.nom}</Text>
-                <Text>statut_dans_la_boite: {selectedUser.statut_dans_la_boite}</Text>
-                <Text>Resume CV: {selectedUser.resume_cv}</Text>
-                <Text>Prenom: {selectedUser.prenom}</Text>
-                <Text>User ID: {selectedUser.user_id}</Text>
-                <Text>V Card: {selectedUser.v_card}</Text>
-                <Text>Photo Profile URL: {selectedUser.photo_profile_url}</Text>
+                <Text>Nom: {selectedUser.nom || 'N/A'}</Text>
+                <Text>Statut dans la boite: {selectedUser.statut_dans_la_boite || 'N/A'}</Text>
+                <Text>Resume CV: {selectedUser.resume_cv || 'N/A'}</Text>
+                <Text>Prénom: {selectedUser.prenom || 'N/A'}</Text>
+                <Text>User ID: {selectedUser.user_id || 'N/A'}</Text>
+                <Text>V Card: {selectedUser.v_card || 'N/A'}</Text>
+                <Text>Photo Profile URL: {selectedUser.photo_profile_url || 'N/A'}</Text>
               </>
             )}
           </ModalBody>
@@ -231,7 +229,6 @@ export default function Component() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
     </section>
   );
 }
