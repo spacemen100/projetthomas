@@ -4,7 +4,8 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr";
 import { Scheduler } from "@spacemen1000/react-scheduler";
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, IconButton, Tooltip } from "@chakra-ui/react";
+import { FcLock, FcUnlock } from "react-icons/fc";
 dayjs.extend(isBetween);
 
 export default function Component() {
@@ -13,6 +14,9 @@ export default function Component() {
   const [filterButtonState, setFilterButtonState] = useState(0);
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState(null);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isUserLocked, setIsUserLocked] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -75,8 +79,8 @@ export default function Component() {
 
   const handleActionItemClick = (action) => {
     console.log('Action clicked:', action);
-    setSelectedAction(action); // Store the selected action
-    openActionModal(); // Open the action modal
+    setSelectedAction(action);
+    openActionModal();
   };
 
   const openActionModal = () => {
@@ -98,9 +102,7 @@ export default function Component() {
         const { data: updatedAction, error } = await supabase
           .from('vianney_actions')
           .update({
-            // Update the action attributes based on your form controls
             action_name: selectedAction.title,
-            // Add more fields as needed
           })
           .eq('id', selectedAction.id)
           .single();
@@ -117,13 +119,27 @@ export default function Component() {
     }
   };
 
+  const toggleUserLock = () => {
+    setIsUserLocked(!isUserLocked);
+  };
+
+  const openUserModal = (user) => {
+    setSelectedUser(user);
+    setIsUserModalOpen(true);
+  };
+
+  const closeUserModal = () => {
+    setSelectedUser(null);
+    setIsUserModalOpen(false);
+  };
+
   return (
     <section>
       <Scheduler
         data={data}
         isLoading={isLoading}
         onItemClick={handleItemClick}
-        onTileClick={handleActionItemClick} 
+        onTileClick={handleActionItemClick}
         onRangeChange={(newRange) => console.log(newRange)}
         onFilterData={handleFilterData}
         onClearFilterData={() => {
@@ -157,6 +173,36 @@ export default function Component() {
             </Button>
             <Button colorScheme="green" onClick={saveActionChanges}>
               Save Changes
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>User Details</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {selectedUser && (
+              <FormControl>
+                <FormLabel>Nom</FormLabel>
+                <Input value={selectedUser.nom} isReadOnly={isUserLocked} />
+                <FormLabel>Prenom</FormLabel>
+                <Input value={selectedUser.prenom} isReadOnly={isUserLocked} />
+              </FormControl>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Tooltip label={isUserLocked ? "Unlock User" : "Lock User"}>
+              <IconButton
+                icon={isUserLocked ? <FcUnlock /> : <FcLock />}
+                onClick={toggleUserLock}
+                variant="ghost"
+              />
+            </Tooltip>
+            <Button colorScheme="blue" mr={3} onClick={closeUserModal}>
+              Close
             </Button>
           </ModalFooter>
         </ModalContent>
