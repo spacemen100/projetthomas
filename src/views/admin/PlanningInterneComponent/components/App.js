@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr";
 import { Scheduler } from "@spacemen1000/react-scheduler";
-import { Button, Text, Flex, Link, Box, Badge, Heading, Avatar, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Button, Text, Flex, Box, Badge, Heading, Avatar, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
 dayjs.extend(isBetween);
 
 export default function Component() {
@@ -253,14 +253,15 @@ export default function Component() {
                   </Box>
                   <Box flex="2" ml="2">
                     {selectedUser.v_card ? (
-                      <Link href={selectedUser.v_card} isExternal>
-                        {selectedUser.v_card}
-                      </Link>
+                      <Button as="a" href={selectedUser.v_card} target="_blank" colorScheme="blue">
+                        Ouvrir la V-Card
+                      </Button>
                     ) : (
                       <Text>N/A</Text>
                     )}
                   </Box>
                 </Flex>
+
                 <Flex p="2" mb="2" alignItems="center">
                   <Box flex="1">
                     <Heading size="sm">Resume CV</Heading>
