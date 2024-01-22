@@ -97,6 +97,35 @@ export default function Component() {
     alert(`Filtered button was clicked`);
   };
 
+  const saveActionChanges = async () => {
+    // Assuming you have an API endpoint or method to update the action data
+    // Here, I'll demonstrate using Supabase to update the action
+    if (selectedAction) {
+      try {
+        const { data: updatedAction, error } = await supabase
+          .from('vianney_actions')
+          .update({
+            // Update the action attributes based on your form controls
+            action_name: selectedAction.title,
+            // Add more fields as needed
+          })
+          .eq('id', selectedAction.id)
+          .single();
+  
+        if (error) {
+          console.error("Error updating action:", error);
+          // Handle the error as needed
+        } else {
+          console.log("Action updated successfully:", updatedAction);
+          closeActionModal(); // Close the modal after successful update
+        }
+      } catch (error) {
+        console.error("Error updating action:", error);
+        // Handle the error as needed
+      }
+    }
+  };
+  
   return (
     <section>
       <Scheduler
