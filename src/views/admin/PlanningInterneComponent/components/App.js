@@ -177,6 +177,10 @@ export default function Component() {
           console.error("Error updating users:", updateUsersError);
         } else {
           console.log("Users updated successfully:", updatedUsers);
+  
+          // Step 4: Update the "nom" field in all corresponding actions
+          await updateUserNomInActions(selectedUser, selectedUser.nom);
+  
           closeUserModal();
         }
       } catch (error) {
