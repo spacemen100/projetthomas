@@ -199,10 +199,37 @@ export default function Component() {
           <ModalCloseButton />
           <ModalBody>
             {selectedAction && (
-              <FormControl>
-                <FormLabel>Action Title</FormLabel>
-                <Input value={selectedAction.title} onChange={(e) => setSelectedAction({ ...selectedAction, title: e.target.value })} />
-              </FormControl>
+              <>
+                <FormControl>
+                  <FormLabel>Action Title</FormLabel>
+                  <Input
+                    value={selectedAction.title}
+                    onChange={(e) =>
+                      setSelectedAction({ ...selectedAction, title: e.target.value })
+                    }
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Action ID</FormLabel>
+                  <Input value={selectedAction.id} isReadOnly />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Start Date</FormLabel>
+                  <Input value={selectedAction.startDate.toString()} isReadOnly />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>End Date</FormLabel>
+                  <Input value={selectedAction.endDate.toString()} isReadOnly />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Action Description</FormLabel>
+                  <Input value={selectedAction.description} isReadOnly />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Client Name</FormLabel>
+                  <Input value={selectedAction.subtitle} isReadOnly />
+                </FormControl>
+              </>
             )}
           </ModalBody>
           <ModalFooter>
@@ -215,6 +242,7 @@ export default function Component() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <ModalOverlay />
         <ModalContent>
