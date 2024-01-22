@@ -134,32 +134,35 @@ export default function Component() {
   };
 
 
-  const openUserModal = (user) => {
-    // Set selectedAction based on the user's team_to_which_its_attached
-    const actionForUser = data.find((item) => item.id === user.team_to_which_its_attached);
-
-    if (actionForUser && actionForUser.data.length > 0) {
-      setSelectedAction(actionForUser.data[0]); // Assuming the user is associated with one action
-    } else {
-      console.warn("No action found for the selected user.");
-      // You can handle this case by providing a default action or displaying a message.
-      // For example:
-      // setSelectedAction({ title: "No Action Found" });
+  const openUserModal = async (user) => {
+    // Fetch additional user details using the user id
+    let { data: userDetails, error } = await supabase
+      .from('vianney_actions') // Replace with your actual table name
+      .select('*')
+      .eq('team_to_which_its_attached', user.id)
+      .single();
+  
+    if (error) {
+      console.error('Error fetching user details:', error);
+      return; // Exit the function if there's an error
     }
-
+  
+  
     setSelectedUser({
-      id: user.id || "", // Assuming you have the user's ID
+      id: user.id || "",
       nom: user.label.title || "",
       statut_dans_la_boite: user.label.subtitle || "",
-      resume_cv: user.resume_cv || "",
-      prenom: user.prenom || "",
-      user_id: user.user_id || "",
-      v_card: user.v_card || "",
-      photo_profile_url: user.photo_profile_url || ""
+      resume_cv: userDetails.resume_cv || "",
+      prenom: userDetails.prenom || "",
+      user_id: userDetails.user_id || "",
+      v_card: userDetails.v_card || "",
+      photo_profile_url: userDetails.photo_profile_url || ""
     });
-    
+  
     setIsUserModalOpen(true);
   };
+  
+  
 
 
   const closeUserModal = () => {
