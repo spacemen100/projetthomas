@@ -140,30 +140,47 @@ export default function Component() {
   };
   
   const saveUserChanges = async () => {
-    if (selectedUser) {
+    if (selectedUser && selectedAction) {
       try {
-        const { data: updatedUser, error } = await supabase
+        // Step 1: Identify the team associated with the action
+        const teamUUID = selectedAction.team_to_which_its_attached;
+  
+        // Step 2: Identify the users associated with the team
+        const { data: teamActions, error: teamActionsError } = await supabase
+          .from('vianney_actions')
+          .select('user_id')
+          .eq('team_to_which_its_attached', teamUUID);
+  
+        if (teamActionsError) {
+          console.error("Error fetching team actions:", teamActionsError);
+          return;
+        }
+  
+        const userUUIDs = teamActions.map((action) => action.user_id);
+  
+        // Step 3: Update the users
+        const { data: updatedUsers, error: updateUsersError } = await supabase
           .from('users')
           .update({
             nom: selectedUser.nom,
             prenom: selectedUser.prenom,
           })
-          .eq('id', selectedUser.id)
-          .single();
+          .in('id', userUUIDs);
   
-        if (error) {
-          console.error("Error updating user:", error);
+        if (updateUsersError) {
+          console.error("Error updating users:", updateUsersError);
         } else {
-          console.log("User updated successfully:", updatedUser);
+          console.log("Users updated successfully:", updatedUsers);
           closeUserModal();
         }
       } catch (error) {
         console.error("Error updating user:", error);
       }
+    } else {
+      console.error("selectedAction or selectedUser is null.");
     }
-  };
-
-
+  };  
+  
   return (
     <section>
       <Scheduler
