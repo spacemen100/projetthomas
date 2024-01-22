@@ -224,7 +224,18 @@ export default function Component() {
             {selectedUser && (
               <>
                 <Flex alignItems="center" mb="2">
-                  <Badge bgColor="lightblue" color="black" p="2" borderRadius={5}>
+                  <Avatar
+                    size="md"
+                    name={selectedUser.nom + ' ' + selectedUser.prenom}
+                    src={selectedUser.photo_profile_url || 'fallback-url'}
+                  />
+                  <Badge
+                    bgColor="lightblue"
+                    color="black"
+                    p="2"
+                    borderRadius={5}
+                    ml="3"
+                  >
                     Consultant : {selectedUser.nom} {selectedUser.prenom}
                   </Badge>
                 </Flex>
@@ -252,7 +263,6 @@ export default function Component() {
                     <Text>{selectedUser.resume_cv || 'N/A'}</Text>
                   </Box>
                 </Flex>
-                <Avatar>Photo Profile URL: {selectedUser.photo_profile_url || 'N/A'}</Avatar>
               </>
             )}
           </ModalBody>
