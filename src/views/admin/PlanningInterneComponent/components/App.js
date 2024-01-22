@@ -135,11 +135,17 @@ export default function Component() {
     setSelectedUser({
       id: user.id || "", // Assuming you have the user's ID
       nom: user.label.title || "",
-      statut_dans_la_boite: user.label.subtitle || ""
+      statut_dans_la_boite: user.label.subtitle || "",
+      resume_cv: user.resume_cv || "", // Add other fields here
+      prenom: user.prenom || "",
+      user_id: user.user_id || "",
+      v_card: user.v_card || "",
+      photo_profile_url: user.photo_profile_url || "",
     });
   
     setIsUserModalOpen(true);
-  };  
+  };
+  
   
   const closeUserModal = () => {
     setSelectedUser({ nom: "", statut_dans_la_boite: "" }); // Reset the selectedUser state
@@ -203,6 +209,11 @@ export default function Component() {
         <>
           <Text>Nom: {selectedUser.nom}</Text>
           <Text>statut_dans_la_boite: {selectedUser.statut_dans_la_boite}</Text>
+          <Text>Resume CV: {selectedUser.resume_cv}</Text>
+          <Text>Prenom: {selectedUser.prenom}</Text>
+          <Text>User ID: {selectedUser.user_id}</Text>
+          <Text>V Card: {selectedUser.v_card}</Text>
+          <Text>Photo Profile URL: {selectedUser.photo_profile_url}</Text>
         </>
       )}
     </ModalBody>
@@ -213,6 +224,7 @@ export default function Component() {
     </ModalFooter>
   </ModalContent>
 </Modal>
+
     </section>
   );
 }
