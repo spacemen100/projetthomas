@@ -125,19 +125,20 @@ export default function Component() {
   };
 
   const openUserModal = (user) => {
-    // Initialize selectedUser with the user's existing values
+    // Set selectedAction based on the user's team_to_which_its_attached
+    const actionForUser = data.find((item) => item.id === user.team_to_which_its_attached);
+    
     setSelectedUser({
       id: user.id || "", // Assuming you have the user's ID
       nom: user.label.title || "",
       prenom: user.label.subtitle || ""
     });
-  
-    // Set selectedAction based on the user's team_to_which_its_attached
-    const actionForUser = data.find((item) => item.id === user.team_to_which_its_attached);
+    
     setSelectedAction(actionForUser);
   
     setIsUserModalOpen(true);
   };
+  
   
   
   const closeUserModal = () => {
