@@ -10,7 +10,7 @@ dayjs.extend(isBetween);
 export default function Component() {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [filterButtonState, setFilterButtonState] = useState(0);
+  const [setFilterButtonState] = useState(0);
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
