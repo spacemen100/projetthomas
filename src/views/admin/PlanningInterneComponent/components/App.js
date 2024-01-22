@@ -69,7 +69,8 @@ export default function Component() {
     console.log('Clicked item:', item);
 
     if (item.label && item.label.title) {
-      alert(`Title ${item.label.title} was clicked`);
+      // This is a user click, open the user modal
+      openUserModal(item);
     } else if (item.title && item.subtitle) {
       // This is a regular item click (action)
     } else {
