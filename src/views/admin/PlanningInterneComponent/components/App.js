@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/fr";
 import { Scheduler } from "@spacemen1000/react-scheduler";
-import { Button, Text, Flex, Box, Badge, Heading, Avatar, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Button, Text, Flex, Switch, Box, Badge, Heading, Avatar, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input } from "@chakra-ui/react";
 dayjs.extend(isBetween);
 
 export default function Component() {
@@ -99,7 +99,7 @@ export default function Component() {
         .from('vianney_actions') // Replace with your actual table name
         .select('discounted, percentage_of_discount, reserved_action')
         .eq('id', action.id);
-  
+
       if (error) {
         console.error('Error fetching additional action details:', error);
       } else {
@@ -115,7 +115,7 @@ export default function Component() {
       console.error('Error fetching additional action details:', error);
     }
   };
-  
+
 
   // Update your openActionModal function to fetch additional data for the selected action
   const openActionModal = async () => {
@@ -239,14 +239,14 @@ export default function Component() {
       <Modal isOpen={isActionModalOpen} onClose={closeActionModal}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Action Details</ModalHeader>
+          <ModalHeader>Details</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {selectedAction && (
               <>
 
                 <FormControl>
-                  <FormLabel>Action Title</FormLabel>
+                  <FormLabel>Titre</FormLabel>
                   <Input
                     value={selectedAction.title}
                     onChange={(e) =>
@@ -255,37 +255,40 @@ export default function Component() {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Start Date</FormLabel>
+                  <FormLabel>Début</FormLabel>
                   <Input value={selectedAction.startDate.toString()} isReadOnly />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>End Date</FormLabel>
+                  <FormLabel>Fin</FormLabel>
                   <Input value={selectedAction.endDate.toString()} isReadOnly />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Action Description</FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <Input value={selectedAction.description} isReadOnly />
-                </FormControl>   
-                <FormControl>
-                  <FormLabel>Discounted</FormLabel>
-                  <Input value={selectedAction.discounted ? 'Yes' : 'No'} isReadOnly />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Percentage of Discount</FormLabel>
+                  <FormLabel>Discount🏷️</FormLabel>
+                  <Switch
+                    isChecked={selectedAction.discounted}
+                    isReadOnly
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Pourcentage</FormLabel>
                   <Input
                     value={selectedAction.percentage_of_discount || 'N/A'}
                     isReadOnly
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Reserved Action</FormLabel>
-                  <Input
-                    value={selectedAction.reserved_action || 'N/A'}
+                  <FormLabel>Action réservée</FormLabel>
+                  <Switch
+                    isChecked={selectedAction.reserved_action}
                     isReadOnly
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Client Name</FormLabel>
+                  <FormLabel>Nom du client</FormLabel>
                   <Input value={selectedAction.subtitle} isReadOnly />
                 </FormControl>
               </>
