@@ -88,7 +88,7 @@ const App = () => {
                 translatedErrorMessage = "Identifiants de connexion invalides";
                 break;
               default:
-                translatedErrorMessage = "Erreur inconnue"; // Default error message
+                translatedErrorMessage = " Pensez à vérifier votre email."; // Default error message
                 break;
             }
 
